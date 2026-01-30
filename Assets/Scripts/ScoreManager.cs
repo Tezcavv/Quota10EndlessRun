@@ -2,12 +2,24 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
+    public static event System.Action<int> OnScoreChanged = delegate { };
     private int highScore = 0;
     [SerializeField]private int currentScoreTheatre = 0;
     [SerializeField]private int currentScoreCart = 0;
     //private int bestScore = 0;
     private int Score;
 
+    public int CurrentScoreCart 
+    { get => currentScoreCart;
+        set 
+        { 
+            if (currentScoreCart != value)
+            {
+                OnScoreChanged?.Invoke(currentScoreCart);
+            }
+            currentScoreCart = value;
+        }
+    }
 
     private void OnEnable()
     {
@@ -21,7 +33,7 @@ public class ScoreManager : MonoBehaviour
 
     public void AddScoreTheatre(float multiplier)
     {
-        float currentScore= currentScoreCart * multiplier ;
+        float currentScore= CurrentScoreCart * multiplier ;
         currentScoreTheatre += Mathf.RoundToInt(currentScore);
 
         if (currentScoreTheatre < 0)
@@ -33,11 +45,11 @@ public class ScoreManager : MonoBehaviour
 
     public void AddScoreCart(int score)
     {
-        currentScoreCart += score;
+        CurrentScoreCart += score;
 
-        if (currentScoreCart < 0)
+        if (CurrentScoreCart < 0)
         {
-            currentScoreCart = 0;
+            CurrentScoreCart = 0;
         }
 
     }
@@ -81,7 +93,7 @@ public class ScoreManager : MonoBehaviour
 
     public int GetCurrentScoreCart()
     {
-        return currentScoreCart;
+        return CurrentScoreCart;
     }
 
     //public int GetBestScore()
