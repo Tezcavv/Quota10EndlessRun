@@ -10,10 +10,11 @@ public class CartManager : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log("Sbattuto con " +  collision.gameObject.name);
-        if(TryGetComponent(out Passant passant))
+        Passant hitPassant = collision.gameObject.GetComponentInParent<Passant>();
+        if(hitPassant)
         {
-            OnCartCollided?.Invoke(passant);
-            passant.gameObject.SetActive(false);
+            OnCartCollided?.Invoke(hitPassant);
+            hitPassant.gameObject.SetActive(false);
         }
         
     }
