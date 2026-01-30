@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 59c8edad35ad21246aedd4cdd0be37a1, type: 3}
-  m_Name: Easy_pattern003
+  m_Name: Easy_pattern001 (TAVOLINO)
   m_EditorClassIdentifier: Assembly-CSharp::SpawnPattern
   pattern:
     rows: 5
@@ -28,10 +28,6 @@ MonoBehaviour:
       originOffset: {x: 0, y: 0, z: 0}
     - prefab: {fileID: 0}
       originOffset: {x: 0, y: 0, z: 0}
-    - prefab: {fileID: 0}
-      originOffset: {x: 0, y: 0, z: 0}
-    - prefab: {fileID: 0}
-      originOffset: {x: 0, y: 0, z: 0}
     - prefab: {fileID: 1412390998307632559, guid: 5ff06055f08bf8445a7a2c9859c02c4c, type: 3}
       originOffset: {x: 0, y: 0, z: 0}
     - prefab: {fileID: 0}
@@ -45,4 +41,8 @@ MonoBehaviour:
     - prefab: {fileID: 0}
       originOffset: {x: 0, y: 0, z: 0}
     - prefab: {fileID: 1412390998307632559, guid: 5ff06055f08bf8445a7a2c9859c02c4c, type: 3}
+      originOffset: {x: 0, y: 0, z: 0}
+    - prefab: {fileID: 0}
+      originOffset: {x: 0, y: 0, z: 0}
+    - prefab: {fileID: 0}
       originOffset: {x: 0, y: 0, z: 0}

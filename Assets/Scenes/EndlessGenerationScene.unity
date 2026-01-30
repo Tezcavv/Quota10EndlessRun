@@ -200,6 +200,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6339fcff5be071145a4dfe29071e867f, type: 2}
   - {fileID: 11400000, guid: ca9811829f9b3d9489a39a9870722b23, type: 2}
   - {fileID: 11400000, guid: 9a9646d0093677b4da5fb68e0e6964cf, type: 2}
+  - {fileID: 11400000, guid: 5be877bf70499024cb35ccac4d0aa7a3, type: 2}
+  - {fileID: 11400000, guid: 490d90c1cea90de4ca6396a4e08f495f, type: 2}
+  - {fileID: 11400000, guid: 3f0a51cf8af50dd499bf458210ebe1c2, type: 2}
 --- !u!1 &26154929 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6348427949872431398, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
@@ -360,7 +363,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6326706182124550190, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 40
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 6326706182124550190, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
       propertyPath: m_LocalRotation.w
@@ -830,7 +833,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6326706182124550190, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 40
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 6326706182124550190, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
       propertyPath: m_LocalRotation.w
@@ -954,7 +957,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6326706182124550190, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 40
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 6326706182124550190, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1357,6 +1360,10 @@ PrefabInstance:
     - target: {fileID: 8309186122486272524, guid: c183121d62bb3bd41b92d597ab9c0748, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8922623551663510752, guid: c183121d62bb3bd41b92d597ab9c0748, type: 3}
+      propertyPath: m_Constraints
+      value: 120
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

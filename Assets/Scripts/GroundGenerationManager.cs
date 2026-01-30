@@ -15,7 +15,7 @@ public class GroundGenerationManager : MonoBehaviour
 
     private SpawnPattern currentSpawnPattern;
     private int spawnPatternCounter = -1;
-    private List<GameObject> groundChunk = new();
+    //private int counterSegmentsLeft = 20;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
@@ -25,6 +25,10 @@ public class GroundGenerationManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //if(counterSegmentsLeft == 0)
+        //{
+        //    // PIAZZA
+        //}
         if (groundSegments_Middle[0].transform.position.z < offset)
         {
             AdvanceChunk();
@@ -34,7 +38,7 @@ public class GroundGenerationManager : MonoBehaviour
     void AdvanceChunk()
     {
         spawnPatternCounter++;
-
+        //counterSegmentsLeft--;
         if (spawnPatternCounter >= 5)
         {
             spawnPatternCounter = 0;

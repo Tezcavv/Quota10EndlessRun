@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,12 +11,24 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce = 10f;
     [SerializeField] private float fallMultiplier = 300f;
     [SerializeField] private float lowJumpMultiplier = 50f;
+    [SerializeField] private float healTime = 5f; // time to heal back to full hp
+    [SerializeField] private float knockbackDistance = 4f;
+    [SerializeField] private float knockbackSpeed = 10f;
+    [SerializeField] private float returnSpeed = 5f;
+
 
     private Rigidbody rb;
     private bool isGrounded;
     private int currentLane = 1; // 0 = left, 1 = middle, 2 = right
     private Vector3 targetPosition;
     private Vector3 originPoint;
+    private int hp = 2; // va più lento ad un hp, ma può recuperarlo.
+    private bool isHurt = false;
+    private float healTimer = 0f;
+    private float baseZ;
+    private float targetZ;
+    private bool returning = false;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -27,6 +40,10 @@ public class PlayerController : MonoBehaviour
         
         targetPosition = transform.position;
         originPoint = transform.forward;
+
+        baseZ = transform.position.z;
+        targetZ = baseZ;
+        
     }
 
     void OnDestroy()
@@ -45,6 +62,33 @@ public class PlayerController : MonoBehaviour
             laneChangeSpeed * Time.deltaTime
         );
         transform.position = pos;
+
+        // HURT
+        if (isHurt)
+        {
+            float speed = returning ? returnSpeed : knockbackSpeed;
+
+            Vector3 curr_pos = transform.position;
+            curr_pos.z = Mathf.Lerp(curr_pos.z, targetZ, speed * Time.deltaTime);
+            transform.position = curr_pos;
+
+            healTimer -= Time.deltaTime;
+
+            if (healTimer <= 0f)
+            {
+                Debug.Log("RETUNING TO ORIGINAL POS!");
+                healTimer = healTime;
+                ReturnToOriginalPos();
+            }
+        }
+
+        // HEALED
+        if (returning && Mathf.Abs(transform.position.z - baseZ) < 0.05f)
+        {
+            isHurt = false;
+            returning = false;
+            hp = 2;
+        }
     }
 
     private void HandlePlayerJump()
@@ -86,6 +130,41 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
             isGrounded = true;
+
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            hp--;
+            if (hp <= 0)
+            {
+                // add game over logic here
+                Debug.Log("GAME OVER!");
+            }
+            else
+            {
+                ApplyKnockback();
+            }
+        }
+        if (collision.gameObject.CompareTag("OneshotObstacle"))
+        {
+            // add game over logic here
+            Debug.Log("GAME OVER!");
+        }
+        
+    }
+
+    private void ApplyKnockback()
+    {
+        isHurt = true;
+        returning = false;
+
+        healTimer = healTime;
+        targetZ = baseZ - knockbackDistance;
+    }
+
+    private void ReturnToOriginalPos()
+    {
+        returning = true;
+        targetZ = baseZ;
     }
 
     private void HandlePlayerInput(Vector2 movementInput)
