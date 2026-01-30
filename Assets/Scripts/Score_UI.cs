@@ -7,7 +7,7 @@ public class Score_UI : MonoBehaviour
 {
     [SerializeField]Canvas scoreCanvas;
     [SerializeField] TextMeshProUGUI scoreTextCart, scoreTextTheatre;
-    [SerializeField]HighScoreCounter highScoreCounter;
+    [SerializeField]ScoreManager highScoreCounter;
 
     void Start()
     {

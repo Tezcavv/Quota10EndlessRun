@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HighScoreCounter : MonoBehaviour
+public class ScoreManager : MonoBehaviour
 {
     private int highScore = 0;
     [SerializeField]private int currentScoreTheatre = 0;
