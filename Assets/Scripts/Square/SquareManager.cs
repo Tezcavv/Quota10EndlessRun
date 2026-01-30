@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class SquareManager : MonoBehaviour
 {
@@ -21,9 +22,47 @@ public class SquareManager : MonoBehaviour
 
     [SerializeField] private Collider EntryPoint;
 
+    private GameObject player;
+    private PlayerController playerController;
+    private PlayerController_Square playerController_Square;
+
+    private void Awake()
+    {
+        // Find the player GameObject by Layer
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player != null)
+        {
+            playerController = player.GetComponent<PlayerController>();
+            playerController_Square = player.GetComponent<PlayerController_Square>();
+        }
+
+    }
+
     private void Start()
     {
-        StartCoroutine(SpawnPassants());
+        // StartCoroutine(SpawnPassants());
+    }
+
+    private void Update()
+    {
+        // For testing purposes, press the 'S' key to change controller of player.
+        if (Keyboard.current.sKey.wasPressedThisFrame)
+        {
+            if (playerController != null && playerController_Square != null)
+            {
+                if (playerController.enabled)
+                {
+                    playerController.enabled = false;
+                    playerController_Square.enabled = true;
+                }
+                else
+                {
+                    playerController.enabled = true;
+                    playerController_Square.enabled = false;
+                }
+            }
+        }
     }
 
     private IEnumerator SpawnPassants()
