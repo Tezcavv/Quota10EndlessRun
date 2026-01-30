@@ -13,6 +13,7 @@ public class CartManager : MonoBehaviour
         if(TryGetComponent(out Passant passant))
         {
             OnCartCollided?.Invoke(passant);
+            passant.gameObject.SetActive(false);
         }
         
     }
