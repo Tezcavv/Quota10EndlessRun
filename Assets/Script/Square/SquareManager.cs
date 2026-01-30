@@ -12,16 +12,18 @@ public class SquareManager : MonoBehaviour
     [SerializeField] private float pedestrianSpawnInterval = 0.5f;
     [SerializeField] private float numberOfPedestriansToSpawn = 2f;
 
-    [SerializeField] private int maxPedestriansInSquare = 50;
+    [SerializeField] private int maxPedestriansCanSpawnInSquare = 50;
     private int currentPedestrianCount = 0;
 
     [SerializeField] private float percentActorPedestrians = 0.5f;
+    [SerializeField] private float percentOtherPedestrians = 0.4f;
+    [SerializeField] private float percentPolicePedestrians = 0.1f;
 
     [SerializeField] private Collider EntryPoint;
 
     private void Start()
     {
-        StartCoroutine(SpawnPassants());
+        // StartCoroutine(SpawnPassants());
     }
 
     private IEnumerator SpawnPassants()
@@ -29,7 +31,7 @@ public class SquareManager : MonoBehaviour
         // Spawn Pedestrians
         for (int i = 0; i < numberOfPedestriansToSpawn; i++)
         {
-            if (currentPedestrianCount >= maxPedestriansInSquare)
+            if (currentPedestrianCount >= maxPedestriansCanSpawnInSquare)
             {
                 yield break;
             }
@@ -45,22 +47,18 @@ public class SquareManager : MonoBehaviour
 
     private GameObject RandomPedestrian()
     {
-        float rand = Random.Range(0f, 1f);
-        if (rand <= percentActorPedestrians)
+        float randValue = Random.Range(0f, 1f);
+        if (randValue < percentActorPedestrians)
         {
             return actorPedestrianPrefab;
         }
+        else if (randValue < percentActorPedestrians + percentOtherPedestrians)
+        {
+            return otherPedestrianPrefab;
+        }
         else
         {
-            float policeRand = Random.Range(0f, 1f);
-            if (policeRand <= 0.1f) // 10% chance to spawn police pedestrian
-            {
-                return policePedestrianPrefab;
-            }
-            else
-            {
-                return otherPedestrianPrefab;
-            }
+            return policePedestrianPrefab;
         }
     }
 
@@ -100,13 +98,13 @@ public class SquareManager : MonoBehaviour
         currentPedestrianCount++;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
             StartCoroutine(SpawnPassants());
 
-            EntryPoint.enabled = false;
+            EntryPoint.enabled = true;
         }
     }
 }
