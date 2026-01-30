@@ -7,6 +7,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float laneOffset = 2.5f;
     [SerializeField] private float laneChangeSpeed = 10f;
     [SerializeField] private float yOffset = 5f;
+    [SerializeField] private float jumpForce = 10f;
+    [SerializeField] private float fallMultiplier = 300f;
+    [SerializeField] private float lowJumpMultiplier = 50f;
+
+    private Rigidbody rb;
+    private bool isGrounded;
     private int currentLane = 1; // 0 = left, 1 = middle, 2 = right
     private Vector3 targetPosition;
     private Vector3 originPoint;
@@ -14,8 +20,11 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+        rb = GetComponent<Rigidbody>();
+        
         InputManager.OnPlayerMovement += HandlePlayerInput;
         InputManager.OnPlayerJump += HandlePlayerJump;
+        
         targetPosition = transform.position;
         originPoint = transform.forward;
     }
@@ -29,17 +38,56 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector3.Lerp(
-            transform.position,
-            targetPosition,
+        Vector3 pos = transform.position;
+        pos.x = Mathf.Lerp(
+            pos.x,
+            targetPosition.x,
             laneChangeSpeed * Time.deltaTime
         );
+        transform.position = pos;
     }
 
     private void HandlePlayerJump()
     {
-        
+        if (!isGrounded)
+            return;
+
+        // reset eventuale velocità verticale residua
+        Vector3 vel = rb.linearVelocity;
+        vel.y = 0f;
+        rb.linearVelocity = vel;
+
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        isGrounded = false;
     }
+
+    void FixedUpdate()
+    {
+        if (rb.linearVelocity.y < 0)
+        {
+            // falls faster
+            rb.AddForce(
+                Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime,
+                ForceMode.Acceleration
+            );
+        }
+        else if (rb.linearVelocity.y > 0)
+        {
+            // salita leggermente smorzata (opzionale)
+            rb.AddForce(
+                Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1f),
+                ForceMode.Acceleration
+            );
+        }
+    }
+
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+            isGrounded = true;
+    }
+
     private void HandlePlayerInput(Vector2 movementInput)
     {
         if (movementInput.x > 0.5f)
