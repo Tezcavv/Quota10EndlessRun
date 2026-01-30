@@ -6,7 +6,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField]private int currentScoreTheatre = 0;
     [SerializeField]private int currentScoreCart = 0;
     //private int bestScore = 0;
-
+    private int Score;
 
 
     private void OnEnable()
@@ -14,16 +14,31 @@ public class ScoreManager : MonoBehaviour
         highScore = PlayerPrefs.GetInt("HighScore" , 0);
     }
 
+    private void Awake()
+    {
+        CartManager.OnCartCollided += addPassant; 
+    }
+
     public void AddScoreTheatre(float multiplier)
     {
         float currentScore= currentScoreCart * multiplier ;
         currentScoreTheatre += Mathf.RoundToInt(currentScore);
+
+        if (currentScoreTheatre < 0)
+        {
+            currentScoreTheatre = 0;
+        }
 
     }
 
     public void AddScoreCart(int score)
     {
         currentScoreCart += score;
+
+        if (currentScoreCart < 0)
+        {
+            currentScoreCart = 0;
+        }
 
     }
 
@@ -34,6 +49,13 @@ public class ScoreManager : MonoBehaviour
             highScore = currentScoreTheatre;
             PlayerPrefs.SetInt("HighScore", highScore);
         }
+
+    }
+
+    private void addPassant(Passant passant)
+    {
+       Score = passant.PassInfo.hitScore;
+       AddScoreCart(Score);
     }
 
     //public void SetBestScore()
