@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 19225737}
   - component: {fileID: 19225736}
+  - component: {fileID: 19225738}
   m_Layer: 0
   m_Name: GroundManager
   m_TagString: Untagged
@@ -164,8 +165,10 @@ MonoBehaviour:
   - {fileID: 479541813}
   - {fileID: 1566888858}
   groundSegmentPrefab: {fileID: 6348427949872431398, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
+  patternPool: {fileID: 19225738}
   segmentLength: 10
   offset: -30
+  obstaclePrefab: {fileID: 1412390998307632559, guid: 5ff06055f08bf8445a7a2c9859c02c4c, type: 3}
 --- !u!4 &19225737
 Transform:
   m_ObjectHideFlags: 0
@@ -181,6 +184,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &19225738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19225735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea4dcb79c37fe040b07ddb2dc40e323, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PatternPool
+  patterns:
+  - {fileID: 11400000, guid: 6339fcff5be071145a4dfe29071e867f, type: 2}
+  - {fileID: 11400000, guid: ca9811829f9b3d9489a39a9870722b23, type: 2}
+  - {fileID: 11400000, guid: 9a9646d0093677b4da5fb68e0e6964cf, type: 2}
 --- !u!1 &26154929 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6348427949872431398, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
@@ -477,6 +496,9 @@ MonoBehaviour:
   laneOffset: 5
   laneChangeSpeed: 10
   yOffset: 2.19
+  jumpForce: 25
+  fallMultiplier: 200
+  lowJumpMultiplier: 7
 --- !u!1001 &1232139540
 PrefabInstance:
   m_ObjectHideFlags: 0
