@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beefa9d7cb67acf43b93fa226b103cfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GroundMovement
-  movementSpeed: 5
+  movementSpeed: 15
 --- !u!1 &9084400245690224352
 GameObject:
   m_ObjectHideFlags: 0
