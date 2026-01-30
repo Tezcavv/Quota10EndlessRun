@@ -11,11 +11,4 @@ public class InputManager : MonoBehaviour
         Debug.Log(inputValue);
         OnPlayerMovement?.Invoke(inputValue);
     }
-
-    public static event Action OnPlayerJump = delegate { };
-    public void OnJump()
-    {
-        Debug.Log("Jump pressed");
-        OnPlayerJump?.Invoke();
-    }
 }
