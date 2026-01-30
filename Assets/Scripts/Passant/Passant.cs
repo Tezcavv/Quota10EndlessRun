@@ -18,6 +18,8 @@ public class Passant : MonoBehaviour
     private Transform target;
     private NavMeshAgent agent;
 
+    public PassInfo PassInfo => passInfo;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
