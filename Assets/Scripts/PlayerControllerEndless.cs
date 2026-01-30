@@ -1,9 +1,8 @@
 using TMPro;
 using UnityEditor;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
-public class PlayerController : MonoBehaviour
+public class PlayerControllerEndless : MonoBehaviour
 {
     [SerializeField] private float laneOffset = 2.5f;
     [SerializeField] private float laneChangeSpeed = 10f;
