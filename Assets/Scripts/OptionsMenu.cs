@@ -36,6 +36,9 @@ public class OptionsMenu : MonoBehaviour
 
   private void Awake()
   {
+    
+    gameObject.SetActive(false);
+    
     float musicValue = PlayerPrefs.GetFloat(MUSIC_KEY, 0.4f);
     float sfxValue   = PlayerPrefs.GetFloat(SFX_KEY, 0.4f);
 

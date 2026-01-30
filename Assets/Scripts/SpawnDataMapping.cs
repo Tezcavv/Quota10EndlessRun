@@ -4,5 +4,5 @@ using UnityEngine;
 public struct SpawnDataMapping
 {
     public GameObject prefab;
-    public Vector3 originOffset;
+   // public Vector3 originOffset;
 }
