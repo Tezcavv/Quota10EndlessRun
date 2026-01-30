@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         InputManager.OnPlayerMovement += HandlePlayerInput;
+        InputManager.OnPlayerJump += HandlePlayerJump;
         targetPosition = transform.position;
         originPoint = transform.forward;
     }
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
     void OnDestroy()
     {
         InputManager.OnPlayerMovement -= HandlePlayerInput;
+        InputManager.OnPlayerJump -= HandlePlayerJump;
     }
 
     // Update is called once per frame
@@ -34,6 +36,10 @@ public class PlayerController : MonoBehaviour
         );
     }
 
+    private void HandlePlayerJump()
+    {
+        
+    }
     private void HandlePlayerInput(Vector2 movementInput)
     {
         if (movementInput.x > 0.5f)

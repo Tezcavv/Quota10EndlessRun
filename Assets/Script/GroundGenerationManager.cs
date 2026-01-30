@@ -7,13 +7,15 @@ public class GroundGenerationManager : MonoBehaviour
     [SerializeField] private List<GameObject> groundSegments_Left = new();
     [SerializeField] private List<GameObject> groundSegments_Right = new();
     [SerializeField] private GameObject groundSegmentPrefab;
-    [SerializeField] private float segmentLength = 10f;
+    [SerializeField] private float segmentLength = 20f;
     [SerializeField] private float offset = -30.0f;
 
+    private List<GameObject> groundChunk = new();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
+
     }
 
     // Update is called once per frame
@@ -29,11 +31,12 @@ public class GroundGenerationManager : MonoBehaviour
         if (groundSegment[0].transform.position.z < offset)
         {
             GameObject first = groundSegment[0];
+            float scale = first.transform.lossyScale.x;
             groundSegment.RemoveAt(0);
 
             GameObject last = groundSegment[^1];
 
-            first.transform.position = last.transform.position + new Vector3(0, 0, 1) * segmentLength;
+            first.transform.position = last.transform.position + new Vector3(0, 0, 1) * scale;
 
             groundSegment.Add(first);
         }
