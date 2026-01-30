@@ -3,8 +3,8 @@ using UnityEngine;
 public class HighScoreCounter : MonoBehaviour
 {
     private int highScore = 0;
-    private int currentScoreTheatre = 0;
-    private int currentScoreCart = 0;
+    [SerializeField]private int currentScoreTheatre = 0;
+    [SerializeField]private int currentScoreCart = 0;
     //private int bestScore = 0;
 
 
