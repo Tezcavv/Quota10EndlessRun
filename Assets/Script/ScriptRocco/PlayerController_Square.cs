@@ -3,10 +3,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerController_Square : MonoBehaviour
 {
-    [SerializeField] private float speed = 5.0f;
+    [SerializeField] private float rSpeed = 5.0f;
     [SerializeField] private float forwardSpeed = 5.0f;
     [SerializeField] private float jumpForce = 7.0f;
-    [SerializeField] private float rotationSpeed = 10.0f;
+   
 
     private Vector2 currDir;
 
@@ -24,7 +24,7 @@ public class PlayerController_Square : MonoBehaviour
     {
 
         _rb.linearVelocity = transform.forward * forwardSpeed;
-        _rb.transform.Rotate(0, currDir.x * speed, 0);
+        _rb.transform.Rotate(0, currDir.x * rSpeed, 0);
 
         //_rb.linearVelocity = new Vector3(currDir.x * speed, 0 , forwardSpeed);
         //_rb.transform.forward = new Vector3(currDir.x * speed, 0, forwardSpeed).normalized;
