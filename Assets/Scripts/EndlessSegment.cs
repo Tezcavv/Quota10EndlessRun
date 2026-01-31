@@ -9,15 +9,15 @@ public class EndlessSegment : MonoBehaviour
     public GameObject Finish;
   [Header("Init")]
   [SerializeField] private List<SideObject> objects;
-  [SerializeField] private GraphicType type;
-  private void Update()
-  {
-    if (Keyboard.current.kKey.wasPressedThisFrame)
-    {
-      ActivateObjects(type);
-    }
-    
-  }
+  // [SerializeField] private GraphicType type;
+  // private void Update()
+  // {
+  //   if (Keyboard.current.kKey.wasPressedThisFrame)
+  //   {
+  //     ActivateObjects(type);
+  //   }
+  //   
+  // }
 
   private void ActivateObjects(GraphicType graphicType)
   {
