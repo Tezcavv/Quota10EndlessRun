@@ -17,10 +17,14 @@ public class GameOverUI : MonoBehaviour
    public CanvasGroup fade;
    
    public PlayerController_Endless endlessPlayerController;
-
+   public ScoreManager scoreManager;
    private Tween t;
+   
+   public TextMeshProUGUI highScoreTxt;
+   public Vector3 punch = new(2, 2, 2);
    public void ActivateGameOver()
    {
+      scoreManager.SetHighScore();
       DOTween.To(
             () => Time.timeScale,
             x => Time.timeScale = x,
@@ -34,6 +38,9 @@ public class GameOverUI : MonoBehaviour
       t?.Kill(false);
       t = text.DOAnchorPos(new Vector2(0, 0), 1.2f).SetEase(Ease.InOutElastic).SetUpdate(UpdateType.Normal, true).OnComplete(() =>
       {
+         highScoreTxt.text = "Run Score: " + scoreManager.GetCurrentScoreTheatre();
+         highScoreTxt.gameObject.SetActive(true);
+         highScoreTxt.GetComponent<RectTransform>().DOPunchScale(punch, 1);
          returnToMainMenuBtn.gameObject.SetActive(true);
          returnToMainMenuBtn.GetComponent<CanvasGroup>().DOFade(1f, 1.2f);
       });
