@@ -15,6 +15,7 @@ public class PlayerController_Endless : MonoBehaviour
     [SerializeField] private float knockbackSpeed = 10f;
     [SerializeField] private float returnSpeed = 5f;
 
+    [SerializeField] private PlayerSFXManager playerSfxManager;
 
     private Rigidbody rb;
     private bool isGrounded;
@@ -46,7 +47,6 @@ public class PlayerController_Endless : MonoBehaviour
 
         baseZ = transform.position.z;
         targetZ = baseZ;
-        
     }
 
     void OnDestroy()
@@ -73,6 +73,8 @@ public class PlayerController_Endless : MonoBehaviour
         // HURT
         if (isHurt)
         {
+            playerSfxManager.PlayHurtSFX();
+
             float speed = returning ? returnSpeed : knockbackSpeed;
 
             Vector3 curr_pos = transform.position;
@@ -102,6 +104,8 @@ public class PlayerController_Endless : MonoBehaviour
     {
         if (!isGrounded)
             return;
+        
+        playerSfxManager.PlayJumpSFX();
 
         // reset eventuale velocità verticale residua
         Vector3 vel = rb.linearVelocity;

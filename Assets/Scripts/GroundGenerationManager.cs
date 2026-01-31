@@ -31,6 +31,8 @@ public class GroundGenerationManager : MonoBehaviour
     //[SerializeField] private GameObject obstaclePrefab;
     [SerializeField] private float worldSpeed = 15f;
 
+    [SerializeField] private PlayerSFXManager playerSfxManager;
+
 
     public List<GameObject> activeGroundSegments = new();
     public SpawnPattern currentSpawnPattern;
@@ -53,6 +55,11 @@ public class GroundGenerationManager : MonoBehaviour
         // Update is called once per frame
     void Update()
     {
+        if (worldSpeed > 0f)
+        {
+            // playerSfxManager.PlayWalkSFX();
+        }
+
         switch (state)
         {
             case WorldState.Running:
@@ -76,7 +83,10 @@ public class GroundGenerationManager : MonoBehaviour
     {
         lastWorldSpeed = worldSpeed;
         worldSpeed = 0f;
-        SpawnEndSquareChunks();
+        foreach(GameObject seg in groundSegments_static)
+        {
+            activeGroundSegments.Remove(seg);
+        }
         state = WorldState.InSquare;
         Debug.Log("In Square STATE");
     }
@@ -105,7 +115,7 @@ public class GroundGenerationManager : MonoBehaviour
                 destroySquare = 1f;
             }
         }
-        Debug.Log("Moving world at speed: " + worldSpeed);
+        //Debug.Log("Moving world at speed: " + worldSpeed);
         Vector3 delta = Vector3.back * worldSpeed * Time.deltaTime;
 
         foreach (GameObject seg in activeGroundSegments)
@@ -135,6 +145,7 @@ public class GroundGenerationManager : MonoBehaviour
         if (activeSquare == null)
         {
             PrepareSquare();
+            SpawnEndSquareChunks();
         }
     }
 
@@ -157,7 +168,7 @@ public class GroundGenerationManager : MonoBehaviour
         (groundSegments, groundSegments_static) =
             (groundSegments_static, groundSegments);
 
-        Transform exitPoint = activeSquare.transform.Find("ExitSquarePoint");
+        Transform exitPoint = activeSquare.GetComponentInChildren<ExitSquarePoint>().transform;
 
         GameObject firstChunk = groundSegments[0];
 
@@ -176,6 +187,7 @@ public class GroundGenerationManager : MonoBehaviour
         {
             PopAndPushGround(groundSegments, 0, scale);
         }
+        activeGroundSegments.AddRange(groundSegments);
     }
 
 
@@ -187,7 +199,7 @@ public class GroundGenerationManager : MonoBehaviour
         float lastChunkEndZ = lastSegment.transform.position.z + 48f;
 
         activeSquare = Instantiate(squarePrefab, Vector3.zero, Quaternion.identity);
-        Transform startEntry = activeSquare.transform.Find("EntrySquarePoint");
+        Transform startEntry = activeSquare.transform.Find("EntryPoint");
         float offsetZ = activeSquare.transform.position.z - startEntry.position.z;
 
         Vector3 squarePos = new Vector3(
