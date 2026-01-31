@@ -105,8 +105,11 @@ public class PlayerController_Endless : MonoBehaviour
 
     private void HandlePlayerJump()
     {
+
         if (isDead) return;
-        
+
+        if (!this.enabled)
+            return;
         if (!isGrounded)
             return;
         
@@ -190,6 +193,8 @@ public class PlayerController_Endless : MonoBehaviour
     private void HandlePlayerInput(Vector2 movementInput)
     {
         if (isDead) return;
+        if(!this.enabled)
+            return;
         if (movementInput.x > 0.5f)
             ChangeLane(1);
         else if (movementInput.x < -0.5f)

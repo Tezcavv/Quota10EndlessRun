@@ -26,9 +26,9 @@ public class GroundGenerationManager : MonoBehaviour
 
     // questi vengono usati quando si cambia alla square mode
     [SerializeField] private List <GameObject> groundSegments_static = new();
-
+    
     [SerializeField] private GameObject squarePrefab;
-    [SerializeField] private PatternPool patternPool;
+    [SerializeField] private SpawnPattern spawnPattern;
     [SerializeField] private float squareEntryOffset = 5f;
     [SerializeField] private GameObject playerPrefab;
     //[SerializeField] private float segmentLength = 20f;
@@ -40,12 +40,13 @@ public class GroundGenerationManager : MonoBehaviour
     public Action OnEnterSquareMode;
 
     public List<GameObject> activeGroundSegments = new();
+    public List<GameObject> activePatterns = new();
     public SpawnPattern currentSpawnPattern;
     public GameObject activeSquare;
     public int spawnPatternCounter = -1;
-    public int counterSegmentsLeft = 1;
+    public int counterSegmentsLeft = 10;
     public float lastWorldSpeed;
-    private float destroySquare = 1f;
+    private float destroySquare = 5f;
     private bool isSquareActive = false;
 
 
@@ -115,13 +116,17 @@ public class GroundGenerationManager : MonoBehaviour
             {
                 Destroy(activeSquare);
                 isSquareActive = false;
-                destroySquare = 1f;
+                destroySquare = 5f;
             }
         }
         //Debug.Log("Moving world at speed: " + worldSpeed);
         Vector3 delta = Vector3.back * worldSpeed * Time.deltaTime;
 
         foreach (GameObject seg in activeGroundSegments)
+        {
+            seg.transform.position += delta;
+        }
+        foreach (GameObject seg in activePatterns)
         {
             seg.transform.position += delta;
         }
@@ -133,6 +138,14 @@ public class GroundGenerationManager : MonoBehaviour
         if (groundSegments[0].transform.position.z < destroyAtZ)
         {
             AdvanceChunk();
+        }
+        if (activePatterns.Count > 0)
+        {
+            if (activePatterns[0].transform.position.z < destroyAtZ)
+            {
+                Destroy(activePatterns[0]);
+                activePatterns.RemoveAt(0);
+            }
         }
 
         if (counterSegmentsLeft <= 0)
@@ -199,7 +212,7 @@ public class GroundGenerationManager : MonoBehaviour
     {
         GameObject lastSegment = groundSegments[^1];
 
-        float lastChunkEndZ = lastSegment.transform.position.z + 48f;
+        float lastChunkEndZ = lastSegment.transform.position.z + 50f;
 
         activeSquare = Instantiate(squarePrefab, Vector3.zero, Quaternion.identity);
         Transform startEntry = activeSquare.transform.Find("EntryPoint");
@@ -207,7 +220,7 @@ public class GroundGenerationManager : MonoBehaviour
 
         Vector3 squarePos = new Vector3(
         lastSegment.transform.position.x,
-        lastSegment.transform.position.y,
+        lastSegment.transform.position.y - 0.4f,
         lastChunkEndZ + offsetZ
         );
         activeSquare.transform.position = squarePos;
@@ -223,15 +236,12 @@ public class GroundGenerationManager : MonoBehaviour
     {
         spawnPatternCounter++;
         counterSegmentsLeft--;
-        if (spawnPatternCounter >= 5)
-        {
-            spawnPatternCounter = 0;
-            currentSpawnPattern = patternPool.GetRandomPattern();
-        }
-
         float scale = 48f; //todo apply to new models
         OnSegmentCreation?.Invoke();
         PopAndPushGround(groundSegments, 0, scale);
+        GameObject pattern = currentSpawnPattern.GetRandomPattern(DifficultyManager.SpeedMultiplier);
+        GameObject g=Instantiate(pattern, groundSegments[^1].transform.position, Quaternion.identity);
+        activePatterns.Add(g);
     }
 
 

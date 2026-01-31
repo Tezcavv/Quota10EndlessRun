@@ -43,6 +43,11 @@ public class ScoreManager : MonoBehaviour
         currentScoreTheatre += Mathf.RoundToInt(currentScore);
         CurrentScoreCart = 0;
 
+        if(currentScoreTheatre > highScore)
+        {
+            highScore = currentScoreTheatre;
+        }
+
         if (currentScoreTheatre < 0)
         {
             currentScoreTheatre = 0;
