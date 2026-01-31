@@ -20,7 +20,7 @@ public class SquareManager : MonoBehaviour
     [SerializeField] private float percentOtherPedestrians = 0.4f;
     [SerializeField] private float percentPolicePedestrians = 0.1f;
 
-    [SerializeField] private Collider EntryPoint;
+    [SerializeField] private EntryPoint entryPoint;
 
     private GameObject player;
     private PlayerController playerController;
@@ -37,6 +37,19 @@ public class SquareManager : MonoBehaviour
             playerController_Square = player.GetComponent<PlayerController_Square>();
         }
 
+        if (entryPoint != null)
+        {
+            entryPoint.OnPlayerEnter += () =>
+            {
+                //if (playerController != null && playerController_Square != null)
+                //{
+                //    playerController.enabled = false;
+                //    playerController_Square.enabled = true;
+                //}
+
+                InitiateSquare();
+            };
+        }
     }
 
     private void Start()
@@ -47,22 +60,22 @@ public class SquareManager : MonoBehaviour
     private void Update()
     {
         // For testing purposes, press the 'S' key to change controller of player.
-        if (Keyboard.current.sKey.wasPressedThisFrame)
-        {
-            if (playerController != null && playerController_Square != null)
-            {
-                if (playerController.enabled)
-                {
-                    playerController.enabled = false;
-                    playerController_Square.enabled = true;
-                }
-                else
-                {
-                    playerController.enabled = true;
-                    playerController_Square.enabled = false;
-                }
-            }
-        }
+        //if (Keyboard.current.sKey.wasPressedThisFrame)
+        //{
+        //    if (playerController != null && playerController_Square != null)
+        //    {
+        //        if (playerController.enabled)
+        //        {
+        //            playerController.enabled = false;
+        //            playerController_Square.enabled = true;
+        //        }
+        //        else
+        //        {
+        //            playerController.enabled = true;
+        //            playerController_Square.enabled = false;
+        //        }
+        //    }
+        //}
     }
 
     private IEnumerator SpawnPassants()
@@ -137,13 +150,10 @@ public class SquareManager : MonoBehaviour
         currentPedestrianCount++;
     }
 
-    private void OnTriggerExit(Collider other)
+    private void InitiateSquare()
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            StartCoroutine(SpawnPassants());
-
-            EntryPoint.enabled = true;
-        }
+        Debug.Log("Player entered the square. Initiating square...");
+        entryPoint.gameObject.SetActive(false);
+        StartCoroutine(SpawnPassants());
     }
 }
