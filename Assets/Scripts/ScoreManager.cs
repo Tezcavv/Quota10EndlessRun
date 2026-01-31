@@ -29,12 +29,19 @@ public class ScoreManager : MonoBehaviour
     private void Awake()
     {
         CartManager.OnCartCollided += addPassant; 
+        CartManager.OnEnteringTheatre += AddScoreTheatre;
+    }
+    private void OnDestroy()
+    {
+        CartManager.OnCartCollided -= addPassant;
+        CartManager.OnEnteringTheatre -= AddScoreTheatre;
     }
 
-    public void AddScoreTheatre(float multiplier)
+    public void AddScoreTheatre()
     {
-        float currentScore= CurrentScoreCart * multiplier ;
+        float currentScore = CurrentScoreCart /* multiplier*/;
         currentScoreTheatre += Mathf.RoundToInt(currentScore);
+        CurrentScoreCart = 0;
 
         if (currentScoreTheatre < 0)
         {
