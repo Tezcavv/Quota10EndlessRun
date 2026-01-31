@@ -7,6 +7,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private CanvasGroup cv;
     [SerializeField] private GameObject optionsMenu;
 
+    [SerializeField] private MainMenuSoundManager soundManager;
+
     private bool isLoading = false;
 
     private void Awake()
@@ -24,6 +26,8 @@ public class MainMenu : MonoBehaviour
     {
         if (isLoading) return;
         isLoading = true;
+
+        soundManager.PlayMainMenuOSTFade(0f, 0.8f);
 
         DOTween.Kill(cv);
 
