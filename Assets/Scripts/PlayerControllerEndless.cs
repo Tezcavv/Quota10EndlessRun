@@ -37,18 +37,10 @@ public class PlayerController : MonoBehaviour
         
         InputManager.OnPlayerMovement += HandlePlayerInput;
         InputManager.OnPlayerJump += HandlePlayerJump;
-        
-        EntrySquarePoint.OnPlayerEnterOnEntryPoint += () =>
-        {
-            // Disable Component when entering the square
-            this.enabled = false;
-        };
 
-        ExitSquarePoint.OnPlayerEnterOnExitPoint += () =>
-        {
-            // Enable Component when exiting the square
-            this.enabled = true;
-        };
+        EntrySquarePoint.OnPlayerEnterOnEntryPoint += HandleEnterOnSquare;
+
+        ExitSquarePoint.OnPlayerEnterOnExitPoint += HandleExitOnSquare;
 
         targetPosition = transform.position;
         originPoint = transform.forward;
@@ -63,17 +55,9 @@ public class PlayerController : MonoBehaviour
         InputManager.OnPlayerMovement -= HandlePlayerInput;
         InputManager.OnPlayerJump -= HandlePlayerJump;
 
-        EntrySquarePoint.OnPlayerEnterOnEntryPoint -= () =>
-        {
-            // Disable Component when entering the square
-            this.enabled = false;
-        };
+        EntrySquarePoint.OnPlayerEnterOnEntryPoint -= HandleEnterOnSquare;
 
-        ExitSquarePoint.OnPlayerEnterOnExitPoint -= () =>
-        {
-            // Enable Component when exiting the square
-            this.enabled = true;
-        };
+        ExitSquarePoint.OnPlayerEnterOnExitPoint -= HandleExitOnSquare;
     }
 
     // Update is called once per frame
@@ -210,6 +194,16 @@ public class PlayerController : MonoBehaviour
             transform.position.y,
             transform.position.z
         );
+    }
+
+    private void HandleEnterOnSquare()
+    {
+        this.enabled = false;
+    }
+
+    private void HandleExitOnSquare()
+    {
+        this.enabled = true;
     }
 
     private void OnDrawGizmos()

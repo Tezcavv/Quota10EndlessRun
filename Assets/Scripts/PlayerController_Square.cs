@@ -15,17 +15,9 @@ public class PlayerController_Square : MonoBehaviour
 
     void Awake()
     {
-        EntrySquarePoint.OnPlayerEnterOnEntryPoint += () =>
-        {
-            // Enable Component when entering the square
-            this.enabled = true;
-        };
+        EntrySquarePoint.OnPlayerEnterOnEntryPoint += HandleEntryOnSquare;
 
-        ExitSquarePoint.OnPlayerEnterOnExitPoint += () =>
-        {
-            // Disable Component when exiting the square
-            this.enabled = false;
-        };
+        ExitSquarePoint.OnPlayerEnterOnExitPoint += HandleExitOnSquare;
     }
 
     void Start()
@@ -51,17 +43,19 @@ public class PlayerController_Square : MonoBehaviour
     {
         InputManager.OnPlayerMovement -= HandlePlayerInput;
 
-        EntrySquarePoint.OnPlayerEnterOnEntryPoint -= () =>
-        {
-            // Enable Component when entering the square
-            this.enabled = true;
-        };
+        EntrySquarePoint.OnPlayerEnterOnEntryPoint -= HandleEntryOnSquare;
 
-        ExitSquarePoint.OnPlayerEnterOnExitPoint -= () =>
-        {
-            // Disable Component when exiting the square
-            this.enabled = false;
-        };
+        ExitSquarePoint.OnPlayerEnterOnExitPoint -= HandleExitOnSquare;
+    }
+
+    private void HandleEntryOnSquare()
+    {
+        this.enabled = true;
+    }
+
+    private void HandleExitOnSquare()
+    {
+        this.enabled = false;
     }
 
     private void HandlePlayerInput(Vector2 dir)
