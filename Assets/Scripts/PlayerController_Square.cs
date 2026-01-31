@@ -8,6 +8,7 @@ public class PlayerController_Square : MonoBehaviour
     [SerializeField] private float forwardSpeed = 5.0f;
     [SerializeField] private float jumpForce = 7.0f;
 
+    [SerializeField] private PlayerSFXManager playerSfxManager;
 
     private Vector2 currDir;
 

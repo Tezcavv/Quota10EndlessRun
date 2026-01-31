@@ -3246,6 +3246,7 @@ GameObject:
   - component: {fileID: 8308667102940578693}
   - component: {fileID: 4486009825767184919}
   - component: {fileID: 552100574381887637}
+  - component: {fileID: 2777482425863911097}
   - component: {fileID: 4441744687055534280}
   m_Layer: 3
   m_Name: Player
@@ -3317,12 +3318,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8309186122486272524}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6feecc3b91e72a442a4a803cb3f52ad6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  laneOffset: 5
+  laneOffset: 3
   laneChangeSpeed: 10
   yOffset: 2.19
   jumpForce: 25
@@ -3332,7 +3333,24 @@ MonoBehaviour:
   knockbackDistance: 4
   knockbackSpeed: 10
   returnSpeed: 5
+  playerSfxManager: {fileID: 2777482425863911097}
 --- !u!114 &552100574381887637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8309186122486272524}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75015fc1678bb0a4a989dd9fab91d873, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController_Square
+  rSpeed: 2
+  forwardSpeed: 5
+  jumpForce: 7
+  playerSfxManager: {fileID: 2777482425863911097}
+--- !u!114 &2777482425863911097
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3341,12 +3359,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 8309186122486272524}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75015fc1678bb0a4a989dd9fab91d873, type: 3}
+  m_Script: {fileID: 11500000, guid: b5ffd3e216294884dad0ee5c3792656c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerController_Square
-  rSpeed: 2
-  forwardSpeed: 5
-  jumpForce: 7
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSFXManager
+  walkSFX:
+  - {fileID: 8300000, guid: 6ae2048933a4cf340aec4f2b8be9fc2d, type: 3}
+  - {fileID: 8300000, guid: 0e8161915ab4d7e41bba711d2b455acd, type: 3}
+  jumpSFX: {fileID: 8300000, guid: a1f420c73069bb64488618a6f3707a01, type: 3}
+  hurtSFX:
+  - {fileID: 8300000, guid: f4dc3aff517ae014d94bc773f0266fc1, type: 3}
+  - {fileID: 8300000, guid: bde5dccb2e1c0504fa63238a45e7bb5e, type: 3}
+  - {fileID: 8300000, guid: ae6f7d7693c07184bbe67706a021b8fa, type: 3}
+  - {fileID: 8300000, guid: f4f18bd2143a826418106af5571a550a, type: 3}
+  - {fileID: 8300000, guid: e86c640d67c9eda488eaed1a212ad0cd, type: 3}
 --- !u!82 &4441744687055534280
 AudioSource:
   m_ObjectHideFlags: 0

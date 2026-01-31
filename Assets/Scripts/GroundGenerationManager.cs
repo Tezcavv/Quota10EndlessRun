@@ -31,6 +31,8 @@ public class GroundGenerationManager : MonoBehaviour
     //[SerializeField] private GameObject obstaclePrefab;
     [SerializeField] private float worldSpeed = 15f;
 
+    [SerializeField] private PlayerSFXManager playerSfxManager;
+
 
     public List<GameObject> activeGroundSegments = new();
     public SpawnPattern currentSpawnPattern;
@@ -53,6 +55,11 @@ public class GroundGenerationManager : MonoBehaviour
         // Update is called once per frame
     void Update()
     {
+        if (worldSpeed > 0f)
+        {
+            // playerSfxManager.PlayWalkSFX();
+        }
+
         switch (state)
         {
             case WorldState.Running:
