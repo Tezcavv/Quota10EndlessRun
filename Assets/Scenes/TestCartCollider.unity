@@ -119,6 +119,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &393607274 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1317075179951891205, guid: 6c3071b6dd2641c428e9a155921ad927, type: 3}
+  m_PrefabInstance: {fileID: 975148001}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &402355209
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,6 +332,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3550026122154926139, guid: 6c3071b6dd2641c428e9a155921ad927, type: 3}
+      propertyPath: scoreCanvas
+      value: 
+      objectReference: {fileID: 1443446170}
+    - target: {fileID: -3550026122154926139, guid: 6c3071b6dd2641c428e9a155921ad927, type: 3}
+      propertyPath: scoreTextCart
+      value: 
+      objectReference: {fileID: 393607274}
+    - target: {fileID: -3550026122154926139, guid: 6c3071b6dd2641c428e9a155921ad927, type: 3}
+      propertyPath: highScoreCounter
+      value: 
+      objectReference: {fileID: 1427093708}
+    - target: {fileID: -3550026122154926139, guid: 6c3071b6dd2641c428e9a155921ad927, type: 3}
+      propertyPath: scoreTextTheatre
+      value: 
+      objectReference: {fileID: 1101118365}
     - target: {fileID: 37690892131777109, guid: 6c3071b6dd2641c428e9a155921ad927, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -552,67 +579,22 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!1001 &1211461180
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1888075594323824031, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 77403bd21fa97934d800c018a573acbf, type: 2}
-    - target: {fileID: 6326706182124550190, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -88.62163
-      objectReference: {fileID: 0}
-    - target: {fileID: 6326706182124550190, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.4999999
-      objectReference: {fileID: 0}
-    - target: {fileID: 6326706182124550190, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -44.35318
-      objectReference: {fileID: 0}
-    - target: {fileID: 6326706182124550190, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 6326706182124550190, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6326706182124550190, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 6326706182124550190, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6326706182124550190, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6326706182124550190, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 6326706182124550190, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6348427949872431398, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
-      propertyPath: m_Name
-      value: EndlessGround
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 46c7dce8db6e30d45b2485799cae4b19, type: 3}
+--- !u!114 &1427093708 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5514895527794074234, guid: 6c3071b6dd2641c428e9a155921ad927, type: 3}
+  m_PrefabInstance: {fileID: 975148001}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21264b25a600aed4da1ecd72e328036e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HighScoreCounter
+--- !u!223 &1443446170 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 348330885458396418, guid: 6c3071b6dd2641c428e9a155921ad927, type: 3}
+  m_PrefabInstance: {fileID: 975148001}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1452153259
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -621,10 +603,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4486009825767184919, guid: c183121d62bb3bd41b92d597ab9c0748, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7299556996555690200, guid: c183121d62bb3bd41b92d597ab9c0748, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.7149954
@@ -669,10 +647,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 8922623551663510752, guid: c183121d62bb3bd41b92d597ab9c0748, type: 3}
-      propertyPath: m_Constraints
-      value: 112
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -690,6 +664,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Square
       objectReference: {fileID: 0}
+    - target: {fileID: 6911111642487138703, guid: 9975666824ed8bd4c97b0ab601c42da1, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 77403bd21fa97934d800c018a573acbf, type: 2}
     - target: {fileID: 9192034451166452781, guid: 9975666824ed8bd4c97b0ab601c42da1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.05908
@@ -745,4 +723,3 @@ SceneRoots:
   - {fileID: 1452153259}
   - {fileID: 975148001}
   - {fileID: 695302122}
-  - {fileID: 1211461180}

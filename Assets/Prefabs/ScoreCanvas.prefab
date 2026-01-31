@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5514895527794074234}
   - component: {fileID: 3903162964638970103}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: score manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +61,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Score_UI
   scoreCanvas: {fileID: 348330885458396418}
   scoreTextCart: {fileID: 1317075179951891205}
-  scoreTextTheatre: {fileID: 1317075179951891205}
+  scoreTextTheatre: {fileID: 5484797963371473300}
   highScoreCounter: {fileID: 5514895527794074234}
 --- !u!1 &4144121752018936459
 GameObject:
@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 882770744378563305}
   - component: {fileID: 1317075179951891205}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Cart Score txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -212,7 +212,6 @@ GameObject:
   - component: {fileID: 348330885458396418}
   - component: {fileID: 7754216275796756266}
   - component: {fileID: 3368322787780660474}
-  - component: {fileID: -3550026122154926139}
   m_Layer: 5
   m_Name: ScoreCanvas
   m_TagString: Untagged
@@ -305,22 +304,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &-3550026122154926139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6201394339330555534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e479a0e1cfcf6ef4da6cbb3978372fef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Score_UI
-  scoreCanvas: {fileID: 0}
-  scoreTextCart: {fileID: 0}
-  scoreTextTheatre: {fileID: 0}
-  highScoreCounter: {fileID: 0}
 --- !u!1 &7931717033333804135
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,7 +316,7 @@ GameObject:
   - component: {fileID: 4135032846426816712}
   - component: {fileID: 5484797963371473300}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: Theatre Score txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -420,7 +403,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
