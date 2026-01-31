@@ -1,16 +1,22 @@
+using System;
 using UnityEngine;
 
 public class NextStagePoint : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private float radius = 2.5f;
+    public Action OnPlayerEnterOnNextStagePoint;
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.gameObject.CompareTag("Player"))
+        {
+            OnPlayerEnterOnNextStagePoint?.Invoke();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDrawGizmos()
     {
-        
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 }

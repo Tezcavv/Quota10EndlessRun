@@ -21,6 +21,8 @@ public class SquareManager : MonoBehaviour
     [SerializeField] private float percentPolicePedestrians = 0.1f;
 
     [SerializeField] private EntryPoint entryPoint;
+    [SerializeField] private DepositPoint depositPoint;
+    [SerializeField] private NextStagePoint nextStagePoint;
 
     private GameObject player;
     private PlayerController playerController;
@@ -36,46 +38,20 @@ public class SquareManager : MonoBehaviour
             playerController = player.GetComponent<PlayerController>();
             playerController_Square = player.GetComponent<PlayerController_Square>();
         }
-
-        if (entryPoint != null)
-        {
-            entryPoint.OnPlayerEnter += () =>
-            {
-                //if (playerController != null && playerController_Square != null)
-                //{
-                //    playerController.enabled = false;
-                //    playerController_Square.enabled = true;
-                //}
-
-                InitiateSquare();
-            };
-        }
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        // StartCoroutine(SpawnPassants());
+        entryPoint.OnPlayerEnterOnEntryPoint += OnEntryPoint;
+        depositPoint.OnPlayerEnterOnDepositPoint += OnDepositPoint;
+        nextStagePoint.OnPlayerEnterOnNextStagePoint += OnNextStagePoint;
     }
 
-    private void Update()
+    private void OnDisable()
     {
-        // For testing purposes, press the 'S' key to change controller of player.
-        //if (Keyboard.current.sKey.wasPressedThisFrame)
-        //{
-        //    if (playerController != null && playerController_Square != null)
-        //    {
-        //        if (playerController.enabled)
-        //        {
-        //            playerController.enabled = false;
-        //            playerController_Square.enabled = true;
-        //        }
-        //        else
-        //        {
-        //            playerController.enabled = true;
-        //            playerController_Square.enabled = false;
-        //        }
-        //    }
-        //}
+        entryPoint.OnPlayerEnterOnEntryPoint -= OnEntryPoint;
+        depositPoint.OnPlayerEnterOnDepositPoint -= OnDepositPoint;
+        nextStagePoint.OnPlayerEnterOnNextStagePoint -= OnNextStagePoint;
     }
 
     private IEnumerator SpawnPassants()
@@ -150,10 +126,20 @@ public class SquareManager : MonoBehaviour
         currentPedestrianCount++;
     }
 
-    private void InitiateSquare()
+    private void OnEntryPoint()
     {
         Debug.Log("Player entered the square. Initiating square...");
         entryPoint.gameObject.SetActive(false);
         StartCoroutine(SpawnPassants());
+    }
+
+    private void OnDepositPoint()
+    {
+        Debug.Log("Player entered the deposit point.");
+    }
+    
+    private void OnNextStagePoint()
+    {
+        Debug.Log("Player entered the Next Stage Point");
     }
 }

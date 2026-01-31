@@ -1,16 +1,22 @@
+using System;
 using UnityEngine;
 
 public class DepositPoint : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private float radius = 2.5f;
+    public Action OnPlayerEnterOnDepositPoint;
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.gameObject.CompareTag("Player"))
+        {
+            OnPlayerEnterOnDepositPoint?.Invoke();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDrawGizmos()
     {
-        
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 }
