@@ -41,7 +41,6 @@ public class GroundGenerationManager : MonoBehaviour
 
     public List<GameObject> activeGroundSegments = new();
     public List<GameObject> activePatterns = new();
-    public SpawnPattern currentSpawnPattern;
     public GameObject activeSquare;
     public int spawnPatternCounter = -1;
     public int counterSegmentsLeft = 10;
@@ -239,7 +238,7 @@ public class GroundGenerationManager : MonoBehaviour
         float scale = 48f; //todo apply to new models
         OnSegmentCreation?.Invoke();
         PopAndPushGround(groundSegments, 0, scale);
-        GameObject pattern = currentSpawnPattern.GetRandomPattern(DifficultyManager.SpeedMultiplier);
+        GameObject pattern = spawnPattern.GetRandomPattern(DifficultyManager.SpeedMultiplier);
         GameObject g=Instantiate(pattern, groundSegments[^1].transform.position, Quaternion.identity);
         activePatterns.Add(g);
     }

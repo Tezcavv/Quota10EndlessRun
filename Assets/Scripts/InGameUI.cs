@@ -10,6 +10,8 @@ public class InGameUI : MonoBehaviour
     [SerializeField] public GameObject panel;
     [SerializeField] public GameObject tutorial;
     [SerializeField] public GameObject options;
+
+
     public void Resume()
     {
         panel.SetActive(false);
@@ -43,6 +45,7 @@ public class InGameUI : MonoBehaviour
 
     void OpenPauseMenu()
     {
+
         PauseManager.Pause();
         panel.SetActive(true);
     }

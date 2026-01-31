@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class RunSoundManager : MonoBehaviour
 {
+    [SerializeField] private AudioSource runAudioSource;
     [SerializeField] private AudioClip endlessClip;
     [SerializeField] private AudioClip squareClip;
     [SerializeField] private float fadeDuration = 1.0f;
 
+    [SerializeField] private AudioClip clickSFX;
+    [SerializeField] private AudioSource sfxAudioSource;
+
     [SerializeField] private GroundGenerationManager groundGenerationManager;
 
-    private AudioSource runAudioSource;
-    
     private void Awake()
     {
-        runAudioSource = gameObject.AddComponent<AudioSource>();
         runAudioSource.loop = true;
 
         // Start with endless mode clip
@@ -55,5 +56,10 @@ public class RunSoundManager : MonoBehaviour
         runAudioSource.Play();
         runAudioSource.DOFade(1f, duration).SetEase(Ease.InOutQuad);
         yield return new WaitForSeconds(duration);
+    }
+
+    public void PlayClickSound()
+    {
+        sfxAudioSource.PlayOneShot(clickSFX);
     }
 }

@@ -93,7 +93,6 @@ Transform:
   m_Children:
   - {fileID: 1669219193282078350}
   - {fileID: 7148375942243766607}
-  - {fileID: 3272600179622572193}
   - {fileID: 5820564452185007242}
   - {fileID: 7504576117875968506}
   - {fileID: 5913281130826542985}
@@ -271,7 +270,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 10.95, y: 27.7, z: 2.354056}
-  m_Center: {x: 0, y: 0, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 2.35}
 --- !u!1 &1472397930737208889
 GameObject:
   m_ObjectHideFlags: 0
@@ -475,7 +474,7 @@ MonoBehaviour:
   - {fileID: 2272268506969190457}
   actorPedestrianPrefab: {fileID: 4301858556616894124, guid: c65282df15970fa4d81c7c957ae162df, type: 3}
   otherPedestrianPrefab: {fileID: 4301858556616894124, guid: 11d6809d84a3c594e959d867b5cf4979, type: 3}
-  policePedestrianPrefab: {fileID: 4301858556616894124, guid: 38481272b526e9646b3626e89d063b75, type: 3}
+  policePedestrianPrefab: {fileID: 4301858556616894124, guid: 2dcb788e0b4a95b4c9f36936e1647711, type: 3}
   pedestrianSpawnInterval: 0.5
   numberOfPedestriansToSpawn: 2
   maxPedestriansCanSpawnInSquare: 50
@@ -1317,59 +1316,6 @@ Transform:
   - {fileID: 4957304058057548505}
   m_Father: {fileID: 656844649139446405}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!1 &5446267080679673369
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3272600179622572193}
-  - component: {fileID: 6703244153109022901}
-  m_Layer: 0
-  m_Name: NorthGate
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3272600179622572193
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5446267080679673369}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 25}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4172541511948001103}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6703244153109022901
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5446267080679673369}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 10, y: 5, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5472695336979700349
 GameObject:
   m_ObjectHideFlags: 0

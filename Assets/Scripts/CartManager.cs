@@ -12,8 +12,13 @@ public class CartManager : MonoBehaviour
     [SerializeField, Min(1)] private int showBodyFactor = 1;
     [SerializeField] private List<MeshRenderer> bodyRenderers;
 
+    [SerializeField] private AudioClip[] swoosh; // Sound played when colliding with a passant
+    private AudioSource audioSource;
+
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
+
         ScoreManager.OnScoreChanged += HandleBodyRenderers;
         //theater.onPlayerEnterTheatre +=  enetringTheatre;
     }
@@ -40,12 +45,11 @@ public class CartManager : MonoBehaviour
 
             if (hitPassant.PassInfo.type is PassInfo.PassType.actor)
             {
+                PlaySwooshSound();
                 bodies++;
                 Debug.Log("Corpo aggiunto al carrello. Totale corpi: " + bodies);
             }
         }
-
-
     }
 
     private void HandleBodyRenderers(int newScore)
@@ -56,10 +60,18 @@ public class CartManager : MonoBehaviour
             bodyRenderers[i].enabled = i < amountToShow;
         }
     }
+
     private void EnteringTheatre()
     {
         OnEnteringTheatre?.Invoke();
         bodies = 0;
         Debug.Log("Entrando nel teatro. Corpi azzerati.");
+    }
+
+    private void PlaySwooshSound()
+    {
+        if (swoosh.Length == 0) return;
+        AudioClip clip = swoosh[UnityEngine.Random.Range(0, swoosh.Length)];
+        audioSource.PlayOneShot(clip);
     }
 }

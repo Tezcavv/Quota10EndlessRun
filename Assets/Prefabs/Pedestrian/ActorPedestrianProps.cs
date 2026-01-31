@@ -38,26 +38,26 @@ public class AttoreOggetti : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (headSocketT) {
-            headPropT.position = headSocketT.position;
-            headPropT.rotation = headSocketT.rotation;
-        }
+    //void Update()
+    //{
+    //    if (headSocketT) {
+    //        headPropT.position = headSocketT.position;
+    //        headPropT.rotation = headSocketT.rotation;
+    //    }
 
-        if (handSocketT) {
-            handPropT.position = handSocketT.position;
-            handPropT.rotation = handSocketT.rotation;
-        }
+    //    if (handSocketT) {
+    //        handPropT.position = handSocketT.position;
+    //        handPropT.rotation = handSocketT.rotation;
+    //    }
 
-        if (bodyPropT) {
-            bodyPropT.position = bodySocketT.position;
-            bodyPropT.rotation = bodySocketT.rotation;
-        }
+    //    if (bodyPropT) {
+    //        bodyPropT.position = bodySocketT.position;
+    //        bodyPropT.rotation = bodySocketT.rotation;
+    //    }
 
-        if (backpackPropT) {
-            backpackPropT.position = backpackSocketT.position;
-            backpackPropT.rotation = backpackSocketT.rotation;
-        }
-    }
+    //    if (backpackPropT) {
+    //        backpackPropT.position = backpackSocketT.position;
+    //        backpackPropT.rotation = backpackSocketT.rotation;
+    //    }
+    //}
 }
