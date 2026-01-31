@@ -39,7 +39,7 @@ public class ScoreManager : MonoBehaviour
 
     public void AddScoreTheatre()
     {
-        float currentScore = CurrentScoreCart * DifficultyManager.DifficultyMultiplier;
+        float currentScore = CurrentScoreCart * DifficultyManager.ScoreMultiplier;
         currentScoreTheatre += Mathf.RoundToInt(currentScore);
         CurrentScoreCart = 0;
 

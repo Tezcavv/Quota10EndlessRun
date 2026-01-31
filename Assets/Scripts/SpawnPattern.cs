@@ -1,27 +1,17 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 
 [CreateAssetMenu(menuName = "Assets/Prefab/SpawnPatterns")]
-public class SpawnPattern : ScriptableObject
+public class SpawnPattern : MonoBehaviour
 {
-    [System.Serializable]
-    public class Pattern {
-        public int rows = 5;
-        public int cols = 3;
+    [SerializeField] private List<GameObject> veryEasyPatterns = new();
+    [SerializeField] private List<GameObject> easyPatterns = new();
+    [SerializeField] private List<GameObject> MediumPatterns = new();
+    [SerializeField] private List<GameObject> HardPatterns = new();
 
-        [SerializeField]
-        private SpawnDataMapping[] data = new SpawnDataMapping[15]; // 3 * 5
 
-        public SpawnDataMapping Get(int row, int col)
-        {
-            return data[row * cols + col];
-        }
-    }
 
-    [SerializeField] public Pattern pattern;
 
-    public SpawnDataMapping GetSpawnPattern(int row, int col)
-    {
-        return pattern.Get(row, col);
-    }
 }

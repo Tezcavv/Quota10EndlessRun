@@ -8,6 +8,9 @@ using static UnityEngine.Rendering.HableCurve;
 
 public class GroundGenerationManager : MonoBehaviour
 {
+
+    public static event System.Action OnSegmentCreation;
+
     // WORLD STATE MACHINE
     private enum WorldState
     {
@@ -48,7 +51,6 @@ public class GroundGenerationManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
-        currentSpawnPattern = patternPool.GetRandomPattern();
         activeGroundSegments.AddRange(groundSegments);
         EntrySquarePoint.OnPlayerEnterOnEntryPoint += OnSquareEnter;
         ExitSquarePoint.OnPlayerEnterOnExitPoint += OnSquareExit;
@@ -230,6 +232,7 @@ public class GroundGenerationManager : MonoBehaviour
         }
 
         float scale = 48f; //todo apply to new models
+        OnSegmentCreation?.Invoke();
         PopAndPushGround(groundSegments, 0, scale);
     }
 
@@ -259,16 +262,16 @@ public class GroundGenerationManager : MonoBehaviour
         newSegment.transform.position = lastSegment.transform.position + new Vector3(0, 0, 1) * scale; //todo apply proper offset
 
         // Determine if we need to spawn an object on this segment
-        SpawnDataMapping isObject  = currentSpawnPattern.GetSpawnPattern(spawnPatternCounter, column);
+        //SpawnDataMapping isObject  = currentSpawnPattern.GetSpawnPattern(spawnPatternCounter, column);
             
         // spawn obstacle
-        if (isObject.prefab != null)
-        {
-            GameObject anchor = newSegment.transform.GetChild(0).gameObject;
-            GameObject obstacle = Instantiate(isObject.prefab, anchor.transform.position, Quaternion.identity);
-            obstacle.transform.parent = anchor.transform;
-           // obstacle.transform.localPosition = isObject.originOffset;
-        }
+        //if (isObject.prefab != null)
+        //{
+        //    GameObject anchor = newSegment.transform.GetChild(0).gameObject;
+        //    GameObject obstacle = Instantiate(isObject.prefab, anchor.transform.position, Quaternion.identity);
+        //    obstacle.transform.parent = anchor.transform;
+        //   // obstacle.transform.localPosition = isObject.originOffset;
+        //}
             
         //add to list, now count is 5 again
         groundSegment.Add(newSegment);
