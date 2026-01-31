@@ -34,7 +34,8 @@ public class PlayerController_Square : MonoBehaviour
 
     void FixedUpdate()
     {
-        _rb.linearVelocity = transform.forward * forwardSpeed;
+        _rb.linearVelocity = new Vector3((transform.forward* forwardSpeed).x,_rb.linearVelocity.y, (transform.forward * forwardSpeed).z);
+
         //_rb.linearVelocity = new Vector3(currDir.x * speed, 0 , forwardSpeed);
         //_rb.transform.forward = new Vector3(currDir.x * speed, 0, forwardSpeed).normalized;
 

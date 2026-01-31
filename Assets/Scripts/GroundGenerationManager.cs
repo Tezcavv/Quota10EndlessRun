@@ -26,6 +26,7 @@ public class GroundGenerationManager : MonoBehaviour
     [SerializeField] private GameObject squarePrefab;
     [SerializeField] private PatternPool patternPool;
     [SerializeField] private float squareEntryOffset = 5f;
+    [SerializeField] private GameObject playerPrefab;
     //[SerializeField] private float segmentLength = 20f;
     [FormerlySerializedAs("offset")] [SerializeField] private float destroyAtZ = -100.0f;
     //[SerializeField] private GameObject obstaclePrefab;
@@ -89,10 +90,12 @@ public class GroundGenerationManager : MonoBehaviour
         worldSpeed = lastWorldSpeed;
         counterSegmentsLeft = 5; // reset segments to run before next square
         state = WorldState.Running;
+        destroyAtZ = activeSquare.GetComponentInChildren<ExitSquarePoint>().transform.position.z - 60;
         activeGroundSegments.Clear();
         activeGroundSegments.AddRange(groundSegments);
         activeGroundSegments.Add(activeSquare);
         activeSquare = null;
+        playerPrefab.transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
         Debug.Log("Square Exited: resetting to RUNNING state");
     }
 
@@ -169,7 +172,7 @@ public class GroundGenerationManager : MonoBehaviour
         groundSegments.RemoveAt(0);
 
         // posizionamento preciso
-        firstChunk.transform.position = exitPoint.position;
+        firstChunk.transform.position = exitPoint.position + new Vector3(0,0,1f);
 
         // reinserisci in fondo
         groundSegments.Add(firstChunk);
