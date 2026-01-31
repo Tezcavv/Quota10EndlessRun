@@ -212,6 +212,7 @@ GameObject:
   - component: {fileID: 348330885458396418}
   - component: {fileID: 7754216275796756266}
   - component: {fileID: 3368322787780660474}
+  - component: {fileID: -3550026122154926139}
   m_Layer: 5
   m_Name: ScoreCanvas
   m_TagString: Untagged
@@ -304,6 +305,22 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &-3550026122154926139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6201394339330555534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e479a0e1cfcf6ef4da6cbb3978372fef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Score_UI
+  scoreCanvas: {fileID: 0}
+  scoreTextCart: {fileID: 0}
+  scoreTextTheatre: {fileID: 0}
+  highScoreCounter: {fileID: 0}
 --- !u!1 &7931717033333804135
 GameObject:
   m_ObjectHideFlags: 0
