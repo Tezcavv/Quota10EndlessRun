@@ -7,9 +7,9 @@ public class CartManager : MonoBehaviour
     public static event Action<Passant> OnCartCollided = delegate { };
 
     [SerializeField, Min(0)] private int bodies;
-    [SerializeField] private List<MeshRenderer> bodyRenderers;
     [Tooltip("How many points should be reached each time to show more bodies on cart?")]
     [SerializeField, Min(1)] private int showBodyFactor = 1;
+    [SerializeField] private List<MeshRenderer> bodyRenderers;
 
     private void Awake()
     {
