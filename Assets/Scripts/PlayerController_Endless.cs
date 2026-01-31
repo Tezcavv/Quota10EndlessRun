@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -22,17 +23,19 @@ public class PlayerController_Endless : MonoBehaviour
     private int currentLane = 1; // 0 = left, 1 = middle, 2 = right
     private Vector3 targetPosition;
     private Vector3 originPoint;
-    private int hp = 2; // va più lento ad un hp, ma può recuperarlo.
+    private int hp = 2; // va piï¿½ lento ad un hp, ma puï¿½ recuperarlo.
     private bool isHurt = false;
     private float healTimer = 0f;
     private float baseZ;
     private float targetZ;
     private bool returning = false;
+    public static bool isDead = false;
 
-
+    public Action OnPlayerDeath;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+        isDead = false;
         rb = GetComponent<Rigidbody>();
         
         InputManager.OnPlayerMovement += HandlePlayerInput;
@@ -102,12 +105,14 @@ public class PlayerController_Endless : MonoBehaviour
 
     private void HandlePlayerJump()
     {
+        if (isDead) return;
+        
         if (!isGrounded)
             return;
         
         playerSfxManager.PlayJumpSFX();
 
-        // reset eventuale velocità verticale residua
+        // reset eventuale velocitï¿½ verticale residua
         Vector3 vel = rb.linearVelocity;
         vel.y = 0f;
         rb.linearVelocity = vel;
@@ -118,6 +123,9 @@ public class PlayerController_Endless : MonoBehaviour
 
     void FixedUpdate()
     {
+
+        if (isDead) return;
+        
         if (rb.linearVelocity.y < 0)
         {
             // falls faster
@@ -147,8 +155,9 @@ public class PlayerController_Endless : MonoBehaviour
             hp--;
             if (hp <= 0)
             {
-                // add game over logic here
-                Debug.Log("GAME OVER!");
+                isDead = true;
+                OnPlayerDeath?.Invoke();
+                
             }
             else
             {
@@ -157,8 +166,8 @@ public class PlayerController_Endless : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("OneshotObstacle"))
         {
-            // add game over logic here
-            Debug.Log("GAME OVER!");
+            isDead = true;
+            OnPlayerDeath?.Invoke();
         }
         
     }
@@ -180,6 +189,7 @@ public class PlayerController_Endless : MonoBehaviour
 
     private void HandlePlayerInput(Vector2 movementInput)
     {
+        if (isDead) return;
         if (movementInput.x > 0.5f)
             ChangeLane(1);
         else if (movementInput.x < -0.5f)
