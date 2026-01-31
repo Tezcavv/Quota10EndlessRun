@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -22,7 +23,7 @@ public class PlayerController_Endless : MonoBehaviour
     private int currentLane = 1; // 0 = left, 1 = middle, 2 = right
     private Vector3 targetPosition;
     private Vector3 originPoint;
-    private int hp = 2; // va più lento ad un hp, ma può recuperarlo.
+    private int hp = 2; // va piï¿½ lento ad un hp, ma puï¿½ recuperarlo.
     private bool isHurt = false;
     private float healTimer = 0f;
     private float baseZ;
@@ -30,6 +31,7 @@ public class PlayerController_Endless : MonoBehaviour
     private bool returning = false;
 
 
+    public Action OnPlayerDeath;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -107,7 +109,7 @@ public class PlayerController_Endless : MonoBehaviour
         
         playerSfxManager.PlayJumpSFX();
 
-        // reset eventuale velocità verticale residua
+        // reset eventuale velocitï¿½ verticale residua
         Vector3 vel = rb.linearVelocity;
         vel.y = 0f;
         rb.linearVelocity = vel;
@@ -147,8 +149,7 @@ public class PlayerController_Endless : MonoBehaviour
             hp--;
             if (hp <= 0)
             {
-                // add game over logic here
-                Debug.Log("GAME OVER!");
+                OnPlayerDeath?.Invoke();
             }
             else
             {
@@ -157,8 +158,7 @@ public class PlayerController_Endless : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("OneshotObstacle"))
         {
-            // add game over logic here
-            Debug.Log("GAME OVER!");
+            OnPlayerDeath?.Invoke();
         }
         
     }
