@@ -4,11 +4,11 @@ using UnityEngine;
 public class NextStagePoint : MonoBehaviour
 {
     [SerializeField] private float radius = 2.5f;
-    public Action OnPlayerEnterOnNextStagePoint;
+    public static Action OnPlayerEnterOnNextStagePoint;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             OnPlayerEnterOnNextStagePoint?.Invoke();
         }

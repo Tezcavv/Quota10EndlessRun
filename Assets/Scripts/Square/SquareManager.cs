@@ -21,8 +21,6 @@ public class SquareManager : MonoBehaviour
     [SerializeField] private float percentPolicePedestrians = 0.1f;
 
     [SerializeField] private EntryPoint entryPoint;
-    [SerializeField] private DepositPoint depositPoint;
-    [SerializeField] private NextStagePoint nextStagePoint;
 
     private GameObject player;
     private PlayerController playerController;
@@ -42,16 +40,14 @@ public class SquareManager : MonoBehaviour
 
     private void OnEnable()
     {
-        entryPoint.OnPlayerEnterOnEntryPoint += OnEntryPoint;
-        depositPoint.OnPlayerEnterOnDepositPoint += OnDepositPoint;
-        nextStagePoint.OnPlayerEnterOnNextStagePoint += OnNextStagePoint;
+        EntryPoint.OnPlayerEnterOnEntryPoint += HandlePlayerEntering;
+        // nextStagePoint.OnPlayerEnterOnNextStagePoint += OnNextStagePoint;
     }
 
     private void OnDisable()
     {
-        entryPoint.OnPlayerEnterOnEntryPoint -= OnEntryPoint;
-        depositPoint.OnPlayerEnterOnDepositPoint -= OnDepositPoint;
-        nextStagePoint.OnPlayerEnterOnNextStagePoint -= OnNextStagePoint;
+        EntryPoint.OnPlayerEnterOnEntryPoint -= HandlePlayerEntering;
+        // nextStagePoint.OnPlayerEnterOnNextStagePoint -= OnNextStagePoint;
     }
 
     private IEnumerator SpawnPassants()
@@ -126,20 +122,19 @@ public class SquareManager : MonoBehaviour
         currentPedestrianCount++;
     }
 
-    private void OnEntryPoint()
+    private void HandlePlayerEntering()
     {
         Debug.Log("Player entered the square. Initiating square...");
-        entryPoint.gameObject.SetActive(false);
         StartCoroutine(SpawnPassants());
     }
 
-    private void OnDepositPoint()
-    {
-        Debug.Log("Player entered the deposit point.");
-    }
+    //private void OnDepositPoint()
+    //{
+    //    Debug.Log("Player entered the deposit point.");
+    //}
     
-    private void OnNextStagePoint()
-    {
-        Debug.Log("Player entered the Next Stage Point");
-    }
+    //private void OnNextStagePoint()
+    //{
+    //    Debug.Log("Player entered the Next Stage Point");
+    //}
 }

@@ -239,6 +239,7 @@ GameObject:
   - component: {fileID: 2205923731434983547}
   - component: {fileID: 3912271664010018638}
   - component: {fileID: 627440384342260339}
+  - component: {fileID: -8315811765125678092}
   m_Layer: 0
   m_Name: PolicePedestrian
   m_TagString: Untagged
@@ -278,6 +279,7 @@ MonoBehaviour:
   minSpeed: 5
   maxSpeed: 10
   anglularSpeed: 180
+  arrivalRadius: 2.5
   passInfo:
     hitScore: -1
     type: 0
@@ -303,3 +305,30 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!54 &-8315811765125678092
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4301858556616894124}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

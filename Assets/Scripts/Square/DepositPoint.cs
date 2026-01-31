@@ -4,11 +4,11 @@ using UnityEngine;
 public class DepositPoint : MonoBehaviour
 {
     [SerializeField] private float radius = 2.5f;
-    public Action OnPlayerEnterOnDepositPoint;
+    public static Action OnPlayerEnterOnDepositPoint;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             OnPlayerEnterOnDepositPoint?.Invoke();
         }

@@ -29,12 +29,12 @@ public class ScoreManager : MonoBehaviour
     private void Awake()
     {
         CartManager.OnCartCollided += addPassant; 
-        CartManager.OnEnteringTheatre += AddScoreTheatre;
+        DepositPoint.OnPlayerEnterOnDepositPoint += AddScoreTheatre;
     }
     private void OnDestroy()
     {
         CartManager.OnCartCollided -= addPassant;
-        CartManager.OnEnteringTheatre -= AddScoreTheatre;
+        DepositPoint.OnPlayerEnterOnDepositPoint -= AddScoreTheatre;
     }
 
     public void AddScoreTheatre()
