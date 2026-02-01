@@ -6,14 +6,18 @@ public class RunSoundManager : MonoBehaviour
 {
     [SerializeField] private AudioSource endlessAudioSource;
     [SerializeField] private AudioSource sqareAudioSource;
+
     [SerializeField] private AudioClip endlessClip;
     [SerializeField] private AudioClip squareClip;
     [SerializeField] private float fadeDuration = 1.0f;
 
     [SerializeField] private AudioClip clickSFX;
+    [SerializeField] private AudioClip gameOverClip;
     [SerializeField] private AudioSource sfxAudioSource;
 
     [SerializeField] private GroundGenerationManager groundGenerationManager;
+
+    [SerializeField] private PlayerController_Endless playerController_Endless;
 
     private void Awake()
     {
@@ -34,12 +38,16 @@ public class RunSoundManager : MonoBehaviour
     {
         groundGenerationManager.OnEnterEndlessMode += SwitchToEndlessModeWithFade;
         groundGenerationManager.OnEnterSquareMode += SwitchToSquareModeWithFade;
+
+        playerController_Endless.OnPlayerDeath += HandleIsDeath;
     }
 
     private void OnDisable()
     {
         groundGenerationManager.OnEnterEndlessMode -= SwitchToEndlessModeWithFade;
         groundGenerationManager.OnEnterSquareMode -= SwitchToSquareModeWithFade;
+
+        playerController_Endless.OnPlayerDeath -= HandleIsDeath;
     }
 
     public void SwitchToEndlessModeWithFade()
@@ -60,6 +68,21 @@ public class RunSoundManager : MonoBehaviour
     {
         sfxAudioSource.Stop();
         sfxAudioSource.clip = clickSFX;
+        sfxAudioSource.Play();
+    }
+
+    private void HandleIsDeath()
+    {
+        StartCoroutine(HandlePlaySound());
+    }
+
+    private IEnumerator HandlePlaySound()
+    {
+        endlessAudioSource.DOFade(0f, fadeDuration).SetEase(Ease.InOutQuad).SetUpdate(true);
+        sqareAudioSource.DOFade(0f, fadeDuration).SetEase(Ease.InOutQuad).SetUpdate(true);
+        yield return new WaitForSecondsRealtime(fadeDuration);
+        sfxAudioSource.Stop();
+        sfxAudioSource.clip = gameOverClip;
         sfxAudioSource.Play();
     }
 }

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class PlayerSFXManager : MonoBehaviour
@@ -11,6 +12,26 @@ public class PlayerSFXManager : MonoBehaviour
 
     [SerializeField] private float counterWalkSFX = 0f;
     [SerializeField] private float delayWalkSFX = 0.7f;
+
+    [SerializeField] private float fadeDuration = 1.0f;
+
+    private PlayerController_Endless playerController_Endless;
+
+    private void Awake()
+    {
+        playerController_Endless = GetComponent<PlayerController_Endless>();
+    }
+    private void OnEnable()
+    {
+        playerController_Endless.OnPlayerDeath += HandleIsDeath;
+        playerController_Endless.OnPlayerHurt += PlayHurtSFX;
+    }
+
+    private void OnDisable()
+    {
+        playerController_Endless.OnPlayerDeath -= HandleIsDeath;
+        playerController_Endless.OnPlayerHurt -= PlayHurtSFX;
+    }
 
     //private void Update()
     //{
@@ -58,5 +79,12 @@ public class PlayerSFXManager : MonoBehaviour
         audioSource.Stop();
         audioSource.clip = clip;
         audioSource.Play();
+    }
+
+    private void HandleIsDeath()
+    {
+        // Stop All AudioSource
+        audioSource.DOFade(0f, fadeDuration).SetEase(Ease.InOutQuad).SetUpdate(true);
+        audioSourceWalk.DOFade(0f, fadeDuration).SetEase(Ease.InOutQuad).SetUpdate(true);
     }
 }

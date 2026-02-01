@@ -438,6 +438,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5556973990900364479, guid: c7e22e0a81a283e2ca7cddd44961b684, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5556973990900364479, guid: c7e22e0a81a283e2ca7cddd44961b684, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5556973990900364479, guid: c7e22e0a81a283e2ca7cddd44961b684, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 491215549}
+    - target: {fileID: 5556973990900364479, guid: c7e22e0a81a283e2ca7cddd44961b684, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5556973990900364479, guid: c7e22e0a81a283e2ca7cddd44961b684, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayClickSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 5556973990900364479, guid: c7e22e0a81a283e2ca7cddd44961b684, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RunSoundManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5556973990900364479, guid: c7e22e0a81a283e2ca7cddd44961b684, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6368032928164390058, guid: c7e22e0a81a283e2ca7cddd44961b684, type: 3}
       propertyPath: m_Name
       value: Game Over UI
@@ -1066,6 +1094,7 @@ GameObject:
   - component: {fileID: 491215549}
   - component: {fileID: 491215548}
   - component: {fileID: 491215551}
+  - component: {fileID: 491215552}
   m_Layer: 0
   m_Name: SoundManager
   m_TagString: Untagged
@@ -1085,7 +1114,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 24300002, guid: f06998fac13e96e8bbc096af911e6855, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -1185,11 +1214,13 @@ MonoBehaviour:
   endlessAudioSource: {fileID: 491215548}
   sqareAudioSource: {fileID: 491215551}
   endlessClip: {fileID: 8300000, guid: 277b7df7cd4313a4cb0be246b5213c9e, type: 3}
-  squareClip: {fileID: 8300000, guid: 5944407595ecf2a4ca5fd7f4778f86b4, type: 3}
+  squareClip: {fileID: 8300000, guid: d18c9ae0d04f62d44beb7db262a2f94d, type: 3}
   fadeDuration: 1
   clickSFX: {fileID: 8300000, guid: c4387a4ca49af894c903503a17b8250b, type: 3}
-  sfxAudioSource: {fileID: 491215551}
+  gameOverClip: {fileID: 8300000, guid: 929c19be1e4fe264eb365c5211983752, type: 3}
+  sfxAudioSource: {fileID: 491215552}
   groundGenerationManager: {fileID: 19225736}
+  playerController_Endless: {fileID: 190950228}
 --- !u!4 &491215550
 Transform:
   m_ObjectHideFlags: 0
@@ -1206,6 +1237,103 @@ Transform:
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &491215551
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491215547}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300002, guid: f06998fac13e96e8bbc096af911e6855, type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!82 &491215552
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -42,6 +42,8 @@ public class PlayerController_Endless : MonoBehaviour
     private Coroutine blinkCoroutine;
 
     public Action OnPlayerDeath;
+    public Action OnPlayerHurt;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -183,7 +185,10 @@ public class PlayerController_Endless : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Obstacle"))
         {
+            Debug.Log("Player hurt");
             hp--;
+            OnPlayerHurt?.Invoke();
+
             if (hp <= 0)
             {
                 isDead = true;
@@ -200,6 +205,7 @@ public class PlayerController_Endless : MonoBehaviour
         if (collision.gameObject.CompareTag("OneshotObstacle"))
         {
             isDead = true;
+            OnPlayerHurt?.Invoke();
             OnPlayerDeath?.Invoke();
         }
         
