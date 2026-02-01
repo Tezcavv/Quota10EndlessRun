@@ -16,6 +16,7 @@ public class InGameUI : MonoBehaviour
     {
         panel.SetActive(false);
         PauseManager.Unpause();
+        Cursor.visible = false;
     }
 
     public void OpenTutorial()
@@ -48,11 +49,13 @@ public class InGameUI : MonoBehaviour
 
         PauseManager.Pause();
         panel.SetActive(true);
+        Cursor.visible = true;
     }
 
     private void Awake()
     {
         Time.timeScale = 1f;
+        Cursor.visible = false;
     }
 
     private void Update()
