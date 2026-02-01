@@ -10,7 +10,7 @@ public class PlayerSFXManager : MonoBehaviour
     [SerializeField] private AudioClip[] hurtSFX;
 
     private float counterWalkSFX = 0f;
-    private float delayWalkSFX = 0.45f;
+    private float delayWalkSFX = 0.7f;
 
     private void Update()
     {

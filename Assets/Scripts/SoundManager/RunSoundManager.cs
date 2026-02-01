@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class RunSoundManager : MonoBehaviour
 {
-    [SerializeField] private AudioSource runAudioSource;
+    [SerializeField] private AudioSource endlessAudioSource;
+    [SerializeField] private AudioSource sqareAudioSource;
     [SerializeField] private AudioClip endlessClip;
     [SerializeField] private AudioClip squareClip;
     [SerializeField] private float fadeDuration = 1.0f;
@@ -16,12 +17,17 @@ public class RunSoundManager : MonoBehaviour
 
     private void Awake()
     {
-        runAudioSource.loop = true;
+        endlessAudioSource.loop = true;
+        sqareAudioSource.loop = true;
 
-        // Start with endless mode clip
-        runAudioSource.clip = endlessClip;
-        runAudioSource.Play();
-        runAudioSource.DOFade(1f, fadeDuration).SetEase(Ease.InOutQuad);
+        // Start both sounds but set volumte to 0 initially for square mode
+        endlessAudioSource.clip = endlessClip;
+        sqareAudioSource.clip = squareClip;
+        endlessAudioSource.volume = 0.0f;
+        sqareAudioSource.volume = 0.0f;
+        endlessAudioSource.DOFade(1f, fadeDuration).SetEase(Ease.InOutQuad);
+        endlessAudioSource.Play();
+        sqareAudioSource.Play();
     }
 
     private void OnEnable()
@@ -39,23 +45,15 @@ public class RunSoundManager : MonoBehaviour
     public void SwitchToEndlessModeWithFade()
     {
         Debug.Log("Switching to Endless Mode with Fade");
-        StartCoroutine(FadeOutAndIn(endlessClip, fadeDuration));
+        endlessAudioSource.DOFade(1f, fadeDuration).SetEase(Ease.InOutQuad);
+        sqareAudioSource.DOFade(0f, fadeDuration).SetEase(Ease.InOutQuad);
     }
 
     public void SwitchToSquareModeWithFade()
     {
         Debug.Log("Switching to Square Mode with Fade");
-        StartCoroutine(FadeOutAndIn(squareClip, fadeDuration));
-    }
-
-    private IEnumerator FadeOutAndIn(AudioClip newClip, float duration)
-    {
-        runAudioSource.DOFade(0f, duration).SetEase(Ease.InOutQuad);
-        yield return new WaitForSeconds(duration);
-        runAudioSource.clip = newClip;
-        runAudioSource.Play();
-        runAudioSource.DOFade(1f, duration).SetEase(Ease.InOutQuad);
-        yield return new WaitForSeconds(duration);
+        endlessAudioSource.DOFade(0f, fadeDuration).SetEase(Ease.InOutQuad);
+        sqareAudioSource.DOFade(1f, fadeDuration).SetEase(Ease.InOutQuad);
     }
 
     public void PlayClickSound()
