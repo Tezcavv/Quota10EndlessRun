@@ -195,6 +195,7 @@ public class GroundGenerationManager : MonoBehaviour
     void SpawnEndSquareChunks()
     {
         AlignStaticToDynamic(groundSegments, groundSegments_static);
+        // QUI CAMBIA I GROUNDSEGMENTS STATIC CON IL PREFAB CHE VUOI
 
         (groundSegments, groundSegments_static) =
             (groundSegments_static, groundSegments);
