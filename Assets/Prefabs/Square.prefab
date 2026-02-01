@@ -1042,7 +1042,7 @@ MonoBehaviour:
   - {fileID: 2272268506969190457}
   actorPedestrianPrefab: {fileID: 4301858556616894124, guid: c65282df15970fa4d81c7c957ae162df, type: 3}
   otherPedestrianPrefab: {fileID: 4301858556616894124, guid: 11d6809d84a3c594e959d867b5cf4979, type: 3}
-  policePedestrianPrefab: {fileID: 4301858556616894124, guid: 2dcb788e0b4a95b4c9f36936e1647711, type: 3}
+  policePedestrianPrefab: {fileID: 8079779331365404290, guid: 3bdb42e7639379446b25035afe0c89fa, type: 3}
   pedestrianSpawnInterval: 0.5
   numberOfPedestriansToSpawn: 2
   maxPedestriansCanSpawnInSquare: 50
