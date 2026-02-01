@@ -12,24 +12,35 @@ public class PlayerSFXManager : MonoBehaviour
     [SerializeField] private float counterWalkSFX = 0f;
     [SerializeField] private float delayWalkSFX = 0.7f;
 
-    private void Update()
+    //private void Update()
+    //{
+    //    // Fai partire il suoni di camminata ogni delayWalkSFX secondi
+    //    counterWalkSFX += Time.deltaTime;
+    //    if (counterWalkSFX >= delayWalkSFX)
+    //    {
+    //        PlayWalkSFX();
+    //        counterWalkSFX = 0f;
+    //    }
+    //}
+
+    private void Start()
     {
-        // Fai partire il suoni di camminata ogni delayWalkSFX secondi
-        counterWalkSFX += Time.deltaTime;
-        if (counterWalkSFX >= delayWalkSFX)
-        {
-            PlayWalkSFX();
-            counterWalkSFX = 0f;
-        }
+        audioSourceWalk.loop = true;
+        PlayWalkSFX();
     }
 
     public void PlayWalkSFX()
     {
-        if (walkSFX.Length == 0) return;
-        AudioClip clip = walkSFX[Random.Range(0, walkSFX.Length)];
-        audioSource.Stop();
-        audioSource.clip = clip;
-        audioSource.Play();
+        //if (walkSFX.Length == 0) return;
+        //AudioClip clip = walkSFX[Random.Range(0, walkSFX.Length)];
+        //audioSourceWalk.Stop();
+        //audioSourceWalk.clip = clip;
+        //audioSourceWalk.Play();
+
+        AudioClip clip = walkSFX[0];
+        audioSourceWalk.Stop();
+        audioSourceWalk.clip = clip;
+        audioSourceWalk.Play();
     }
 
     public void PlayJumpSFX()
