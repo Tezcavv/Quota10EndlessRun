@@ -1182,8 +1182,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4148a6d4e1847ad48b54d3d281f0b2db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RunSoundManager
-  endlessAudioSource: {fileID: 0}
-  sqareAudioSource: {fileID: 0}
+  endlessAudioSource: {fileID: 491215548}
+  sqareAudioSource: {fileID: 491215551}
   endlessClip: {fileID: 8300000, guid: 277b7df7cd4313a4cb0be246b5213c9e, type: 3}
   squareClip: {fileID: 8300000, guid: 5944407595ecf2a4ca5fd7f4778f86b4, type: 3}
   fadeDuration: 1
