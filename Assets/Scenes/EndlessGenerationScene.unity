@@ -163,13 +163,13 @@ MonoBehaviour:
   spawnPattern: {fileID: 1546812374}
   squareEntryOffset: 5
   playerPrefab: {fileID: 190950223}
-  destroyAtZ: -50
+  destroyAtZ: -60
   worldSpeed: 15
   activeGroundSegments: []
   activePatterns: []
   activeSquare: {fileID: 0}
   spawnPatternCounter: -1
-  counterSegmentsLeft: 1000
+  counterSegmentsLeft: 10
   lastWorldSpeed: 0
   originalWorldSpeed: 0
 --- !u!4 &19225737
