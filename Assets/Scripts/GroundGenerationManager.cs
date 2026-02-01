@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
-
+using Random = UnityEngine.Random;
 
 
 public class GroundGenerationManager : MonoBehaviour
@@ -196,6 +196,13 @@ public class GroundGenerationManager : MonoBehaviour
     {
         AlignStaticToDynamic(groundSegments, groundSegments_static);
         // QUI CAMBIA I GROUNDSEGMENTS STATIC CON IL PREFAB CHE VUOI
+
+        int newGraphicType = Random.Range(0, Enum.GetValues(typeof(GraphicType)).Length);
+        foreach (GameObject seg in groundSegments_static)
+        {
+            var x = seg.TryGetComponent<EndlessSegment>(out var endlessSegment);
+            endlessSegment?.ActivateObjects((GraphicType) newGraphicType);
+        }
 
         (groundSegments, groundSegments_static) =
             (groundSegments_static, groundSegments);
