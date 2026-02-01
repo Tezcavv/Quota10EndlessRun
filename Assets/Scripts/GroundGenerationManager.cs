@@ -103,7 +103,7 @@ public class GroundGenerationManager : MonoBehaviour
         worldSpeed = lastWorldSpeed;
         counterSegmentsLeft = originalCounterSegments; // reset segments to run before next square
         state = WorldState.Running;
-        destroyAtZ = groundSegments[0].transform.position.z - 60;
+        destroyAtZ = groundSegments[1].transform.position.z - 120;
         activeGroundSegments.Clear();
         activeGroundSegments.AddRange(groundSegments);
         activeGroundSegments.Add(activeSquare);
