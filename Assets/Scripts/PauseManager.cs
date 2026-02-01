@@ -7,6 +7,12 @@ using UnityEngine;
 
     public static bool IsPaused { get; private set; } = false;
 
+
+    private void Awake()
+    {
+      Unpause();
+    }
+
     public static void TogglePause()
     {
       IsPaused = !IsPaused;
