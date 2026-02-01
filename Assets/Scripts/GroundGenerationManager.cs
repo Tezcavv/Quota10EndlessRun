@@ -107,7 +107,6 @@ public class GroundGenerationManager : MonoBehaviour
         activeGroundSegments.Clear();
         activeGroundSegments.AddRange(groundSegments);
         activeGroundSegments.Add(activeSquare);
-        activeSquare = null;
         triggered = true;
         destroySquareCoroutine = StartCoroutine(DestroySquareRoutine());
         playerPrefab.transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
@@ -116,16 +115,22 @@ public class GroundGenerationManager : MonoBehaviour
 
     private IEnumerator DestroySquareRoutine()
     {
-        if (isSquareActive)
+        yield return new WaitForSeconds(destroySquare);
+
+        if (activeSquare != null)
         {
-            yield return new WaitForSeconds(destroySquare);
-            destroySquare -= Time.deltaTime;
-            
-            triggered = false;
+            // 1?? rimuovi PRIMA dalla lista
+            activeGroundSegments.Remove(activeSquare);
+
+            // 2?? poi distruggi
             Destroy(activeSquare);
-            isSquareActive = false;
-                
+
+            // 3?? infine null
+            activeSquare = null;
         }
+
+        isSquareActive = false;
+        triggered = false;
     }
 
     void MoveWorld()
