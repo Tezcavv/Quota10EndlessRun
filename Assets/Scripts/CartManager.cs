@@ -13,6 +13,7 @@ public class CartManager : MonoBehaviour
     [SerializeField] private List<MeshRenderer> bodyRenderers;
 
     [SerializeField] private AudioClip[] swoosh; // Sound played when colliding with a passant
+    [SerializeField] private AudioClip collisioneSbirro; // Sound played when colliding with a police passant
     private AudioSource audioSource;
 
     private void Awake()
@@ -49,6 +50,16 @@ public class CartManager : MonoBehaviour
                 PlaySwooshSound();
                 bodies++;
                 Debug.Log("Corpo aggiunto al carrello. Totale corpi: " + bodies);
+            }
+            else
+            {
+                // suono di collisione con sbirro
+                if (collisioneSbirro)
+                {
+                    audioSource.Stop();
+                    audioSource.clip = collisioneSbirro;
+                    audioSource.Play();
+                }
             }
             OnCartCollided?.Invoke(hitPassant);
         }

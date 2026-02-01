@@ -9,6 +9,7 @@ public class PlayerSFXManager : MonoBehaviour
     [SerializeField] private AudioClip[] walkSFX;
     [SerializeField] private AudioClip jumpSFX;
     [SerializeField] private AudioClip[] hurtSFX;
+    [SerializeField] private AudioClip applausi;
 
     [SerializeField] private float counterWalkSFX = 0f;
     [SerializeField] private float delayWalkSFX = 0.7f;
@@ -25,12 +26,14 @@ public class PlayerSFXManager : MonoBehaviour
     {
         playerController_Endless.OnPlayerDeath += HandleIsDeath;
         playerController_Endless.OnPlayerHurt += PlayHurtSFX;
+        DepositTheatrePoint.OnPlayerEnterOnDepositPoint += PlayCollisioneSbirroSFX;
     }
 
     private void OnDisable()
     {
         playerController_Endless.OnPlayerDeath -= HandleIsDeath;
         playerController_Endless.OnPlayerHurt -= PlayHurtSFX;
+        DepositTheatrePoint.OnPlayerEnterOnDepositPoint -= PlayCollisioneSbirroSFX;
     }
 
     //private void Update()
@@ -78,6 +81,14 @@ public class PlayerSFXManager : MonoBehaviour
         AudioClip clip = hurtSFX[Random.Range(0, hurtSFX.Length)];
         audioSource.Stop();
         audioSource.clip = clip;
+        audioSource.Play();
+    }
+
+    private void PlayCollisioneSbirroSFX()
+    {
+        if (applausi == null) return;
+        audioSource.Stop();
+        audioSource.clip = applausi;
         audioSource.Play();
     }
 
