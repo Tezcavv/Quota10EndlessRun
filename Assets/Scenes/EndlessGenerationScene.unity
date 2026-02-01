@@ -1346,7 +1346,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2385,6 +2385,10 @@ PrefabInstance:
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2777482425863911097, guid: c183121d62bb3bd41b92d597ab9c0748, type: 3}
+      propertyPath: applausi
+      value: 
+      objectReference: {fileID: 8300000, guid: 66f3351929eb4154496187fed4506975, type: 3}
+    - target: {fileID: 2777482425863911097, guid: c183121d62bb3bd41b92d597ab9c0748, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 190950225}
@@ -2392,6 +2396,10 @@ PrefabInstance:
       propertyPath: audioSourceWalk
       value: 
       objectReference: {fileID: 190950224}
+    - target: {fileID: 4441744687055534280, guid: c183121d62bb3bd41b92d597ab9c0748, type: 3}
+      propertyPath: m_Volume
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 4486009825767184919, guid: c183121d62bb3bd41b92d597ab9c0748, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -2399,6 +2407,10 @@ PrefabInstance:
     - target: {fileID: 4486009825767184919, guid: c183121d62bb3bd41b92d597ab9c0748, type: 3}
       propertyPath: laneOffset
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5460550464219788427, guid: c183121d62bb3bd41b92d597ab9c0748, type: 3}
+      propertyPath: m_Volume
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 6795943895867654165, guid: c183121d62bb3bd41b92d597ab9c0748, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2452,6 +2464,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8052534698454767276, guid: c183121d62bb3bd41b92d597ab9c0748, type: 3}
+      propertyPath: m_Volume
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 8309186122486272524, guid: c183121d62bb3bd41b92d597ab9c0748, type: 3}
       propertyPath: m_Name
       value: Player
@@ -2460,6 +2476,10 @@ PrefabInstance:
       propertyPath: m_ExcludeLayers.m_Bits
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8948187555129569947, guid: c183121d62bb3bd41b92d597ab9c0748, type: 3}
+      propertyPath: collisioneSbirro
+      value: 
+      objectReference: {fileID: 8300000, guid: 0001de00496a10c419f7ca8c4dcbce91, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
