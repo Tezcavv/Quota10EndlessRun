@@ -663,7 +663,7 @@ GameObject:
   - component: {fileID: 6083466515894772462}
   - component: {fileID: 6709282790770907610}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Button KEEP LAST
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -686,7 +686,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 864, y: 437}
+  m_AnchoredPosition: {x: 348, y: 373}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7081555415286329630
@@ -795,7 +795,7 @@ GameObject:
   - component: {fileID: 9220962063263992723}
   - component: {fileID: 1843810300550930801}
   m_Layer: 5
-  m_Name: BG
+  m_Name: MAIN PANEL PUT HERE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -877,7 +877,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6458660264619365604
 RectTransform:
   m_ObjectHideFlags: 0
@@ -891,8 +891,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6034609399666155457}
-  - {fileID: 6380677073566189149}
   - {fileID: 9215862737449327756}
+  - {fileID: 6380677073566189149}
   m_Father: {fileID: 6500123358642778879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
