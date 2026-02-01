@@ -173,11 +173,13 @@ public class PlayerController_Endless : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (isInvincible || isDead)
+        if (isDead)
             return;
 
         if (collision.gameObject.CompareTag("Ground"))
             isGrounded = true;
+
+        if (isInvincible) return;
 
         if (collision.gameObject.CompareTag("Obstacle"))
         {
