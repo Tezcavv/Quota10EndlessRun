@@ -24,6 +24,7 @@ public class GameOverUI : MonoBehaviour
    public Vector3 punch = new(2, 2, 2);
    public void ActivateGameOver()
    {
+      Cursor.visible = true;
       scoreManager.SetHighScore();
       DOTween.To(
             () => Time.timeScale,
