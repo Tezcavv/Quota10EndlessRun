@@ -254,8 +254,8 @@ public class GroundGenerationManager : MonoBehaviour
         float scale = 48f; //todo apply to new models
         OnSegmentCreation?.Invoke();
         PopAndPushGround(groundSegments, 0, scale);
-        worldSpeed = Mathf.Min(originalWorldSpeed + (DifficultyManager.SpeedMultiplier), 100);
-        GameObject pattern = spawnPattern.GetRandomPattern(DifficultyManager.SpeedMultiplier / 10);
+        worldSpeed = Mathf.Min(originalWorldSpeed + (DifficultyManager.SpeedMultiplier)*3, 60);
+        GameObject pattern = spawnPattern.GetRandomPattern(DifficultyManager.SpeedMultiplier / 2);
         GameObject g=Instantiate(pattern, groundSegments[^1].transform.position, Quaternion.identity);
         activePatterns.Add(g);
     }
