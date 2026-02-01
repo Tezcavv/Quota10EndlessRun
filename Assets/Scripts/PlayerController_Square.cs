@@ -11,6 +11,8 @@ public class PlayerController_Square : MonoBehaviour
     [SerializeField] private PlayerSFXManager playerSfxManager;
 
     private Vector2 currDir;
+    private float originalForwardSpeed;
+    private float originalrSpeed;
 
     Rigidbody _rb;
 
@@ -25,6 +27,8 @@ public class PlayerController_Square : MonoBehaviour
     {
         InputManager.OnPlayerMovement += HandlePlayerInput;
         _rb = GetComponent<Rigidbody>();
+        originalForwardSpeed = forwardSpeed;
+        originalrSpeed = rSpeed;
     }
 
 
@@ -53,6 +57,8 @@ public class PlayerController_Square : MonoBehaviour
     private void HandleEntryOnSquare()
     {
         this.enabled = true;
+        forwardSpeed = Mathf.Min(originalForwardSpeed + (DifficultyManager.SpeedMultiplier) * 2f, 30);
+        rSpeed = Mathf.Min(originalrSpeed + (DifficultyManager.SpeedMultiplier), 15);
     }
 
     private void HandleExitOnSquare()
