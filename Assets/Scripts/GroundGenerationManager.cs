@@ -43,6 +43,7 @@ public class GroundGenerationManager : MonoBehaviour
     public int spawnPatternCounter = -1;
     public int counterSegmentsLeft = 10;
     public float lastWorldSpeed;
+    public float originalWorldSpeed;
     private float destroySquare = 5f;
     private bool isSquareActive = false;
 
@@ -53,6 +54,7 @@ public class GroundGenerationManager : MonoBehaviour
         activeGroundSegments.AddRange(groundSegments);
         EntrySquarePoint.OnPlayerEnterOnEntryPoint += OnSquareEnter;
         ExitSquarePoint.OnPlayerEnterOnExitPoint += OnSquareExit;
+        originalWorldSpeed = worldSpeed;
     }
         // Update is called once per frame
     void Update()
@@ -70,7 +72,7 @@ public class GroundGenerationManager : MonoBehaviour
                 break;
 
             case WorldState.InSquare:
-                UpdateSquare();
+                worldSpeed = 0f;
                 break;
         }
 
@@ -236,16 +238,10 @@ public class GroundGenerationManager : MonoBehaviour
         float scale = 48f; //todo apply to new models
         OnSegmentCreation?.Invoke();
         PopAndPushGround(groundSegments, 0, scale);
-        GameObject pattern = spawnPattern.GetRandomPattern(DifficultyManager.SpeedMultiplier);
+        worldSpeed = Mathf.Min(originalWorldSpeed + (DifficultyManager.SpeedMultiplier), 100);
+        GameObject pattern = spawnPattern.GetRandomPattern(DifficultyManager.SpeedMultiplier / 10);
         GameObject g=Instantiate(pattern, groundSegments[^1].transform.position, Quaternion.identity);
         activePatterns.Add(g);
-    }
-
-
-    void UpdateSquare()
-    {
-        worldSpeed = 0f;
-        // BLA BLA BLA
     }
 
     void PopAndPushGround(List<GameObject> groundSegment, int column, float scale)
