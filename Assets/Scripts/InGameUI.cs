@@ -15,7 +15,7 @@ public class InGameUI : MonoBehaviour
     public void Resume()
     {
         panel.SetActive(false);
-        PauseManager.Unpause();
+        PauseManager.instance.Unpause();
         Cursor.visible = false;
     }
 
@@ -47,7 +47,8 @@ public class InGameUI : MonoBehaviour
     void OpenPauseMenu()
     {
 
-        PauseManager.Pause();
+        if (PlayerController_Endless.isDead) return;
+        PauseManager.instance.Pause();
         panel.SetActive(true);
         Cursor.visible = true;
     }

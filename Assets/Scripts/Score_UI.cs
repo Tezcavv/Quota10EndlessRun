@@ -24,5 +24,11 @@ public class Score_UI : MonoBehaviour
         scoreTextTheatre.text = "Theatre Score: " + highScoreCounter.GetCurrentScoreTheatre().ToString();
         hearts[0].SetActive(player.hp > 0);
         hearts[1].SetActive(player.hp > 1);
+
+        if (PlayerController_Endless.isDead)
+        {
+            hearts[0].SetActive(false);
+            hearts[1].SetActive(false);
+        }
     }
 }

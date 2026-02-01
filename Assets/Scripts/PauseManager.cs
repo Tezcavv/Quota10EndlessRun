@@ -5,29 +5,32 @@ using UnityEngine;
   public class PauseManager : MonoBehaviour
   {
 
-    public static bool IsPaused { get; private set; } = false;
+    public bool IsPaused { get; private set; } = false;
 
+    public static PauseManager instance;
 
     private void Awake()
     {
+      instance = this;
       Unpause();
     }
 
-    public static void TogglePause()
-    {
-      IsPaused = !IsPaused;
-      Time.timeScale = IsPaused ? 0f : 1f;
-    }
 
-    public static void Pause()
+
+    public void Pause()
     {
       IsPaused = true;
       Time.timeScale = IsPaused ? 0f : 1f;
     }
 
-    public static void Unpause()
+    public void Unpause()
     {
       IsPaused = false;
       Time.timeScale = IsPaused ? 0f : 1f;
+    }
+
+    private void OnDestroy()
+    {
+      Unpause();
     }
   }
