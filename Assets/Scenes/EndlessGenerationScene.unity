@@ -169,9 +169,10 @@ MonoBehaviour:
   activePatterns: []
   activeSquare: {fileID: 0}
   spawnPatternCounter: -1
-  counterSegmentsLeft: 10
+  counterSegmentsLeft: 1
   lastWorldSpeed: 0
   originalWorldSpeed: 0
+  triggered: 0
 --- !u!4 &19225737
 Transform:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -44,8 +45,10 @@ public class GroundGenerationManager : MonoBehaviour
     public int counterSegmentsLeft = 10;
     public float lastWorldSpeed;
     public float originalWorldSpeed;
-    private float destroySquare = 5f;
+    private float destroySquare = 2f;
     private bool isSquareActive = false;
+    public bool triggered = false;
+    public Coroutine destroySquareCoroutine;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -93,6 +96,8 @@ public class GroundGenerationManager : MonoBehaviour
 
     void OnSquareExit()
     {
+        if (triggered)
+            return;
         OnEnterEndlessMode?.Invoke();
         worldSpeed = lastWorldSpeed;
         counterSegmentsLeft = 5; // reset segments to run before next square
@@ -101,23 +106,35 @@ public class GroundGenerationManager : MonoBehaviour
         activeGroundSegments.Clear();
         activeGroundSegments.AddRange(groundSegments);
         activeGroundSegments.Add(activeSquare);
-        activeSquare = null;
+        triggered = true;
+        destroySquareCoroutine = StartCoroutine(DestroySquareRoutine());
         playerPrefab.transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
         Debug.Log("Square Exited: resetting to RUNNING state");
     }
 
+    private IEnumerator DestroySquareRoutine()
+    {
+        yield return new WaitForSeconds(destroySquare);
+
+        if (activeSquare != null)
+        {
+            // 1?? rimuovi PRIMA dalla lista
+            activeGroundSegments.Remove(activeSquare);
+
+            // 2?? poi distruggi
+            Destroy(activeSquare);
+
+            // 3?? infine null
+            activeSquare = null;
+        }
+
+        isSquareActive = false;
+        triggered = false;
+    }
+
     void MoveWorld()
     {
-        if (isSquareActive)
-        {
-            destroySquare -= Time.deltaTime;
-            if (destroySquare <= 0f)
-            {
-                Destroy(activeSquare);
-                isSquareActive = false;
-                destroySquare = 5f;
-            }
-        }
+        
         //Debug.Log("Moving world at speed: " + worldSpeed);
         Vector3 delta = Vector3.back * worldSpeed * Time.deltaTime;
 
