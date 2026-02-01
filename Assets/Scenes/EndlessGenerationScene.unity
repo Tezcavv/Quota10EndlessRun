@@ -2245,8 +2245,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 552100574381887637, guid: c183121d62bb3bd41b92d597ab9c0748, type: 3}
+      propertyPath: rSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 552100574381887637, guid: c183121d62bb3bd41b92d597ab9c0748, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 552100574381887637, guid: c183121d62bb3bd41b92d597ab9c0748, type: 3}
+      propertyPath: forwardSpeed
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2777482425863911097, guid: c183121d62bb3bd41b92d597ab9c0748, type: 3}
       propertyPath: audioSource
