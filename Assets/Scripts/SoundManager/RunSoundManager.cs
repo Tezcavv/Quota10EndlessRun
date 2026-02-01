@@ -58,6 +58,8 @@ public class RunSoundManager : MonoBehaviour
 
     public void PlayClickSound()
     {
-        sfxAudioSource.PlayOneShot(clickSFX);
+        sfxAudioSource.Stop();
+        sfxAudioSource.clip = clickSFX;
+        sfxAudioSource.Play();
     }
 }

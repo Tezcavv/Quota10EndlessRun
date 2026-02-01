@@ -42,12 +42,16 @@ public class PoliceSoundManager : MonoBehaviour
     public void PlayWhistle()
     {
         if (whistle == null) return;
-        audioSource.PlayOneShot(whistle);
+        audioSource.Stop();
+        audioSource.clip = whistle;
+        audioSource.Play();
     }
 
     public void PlayHey()
     {
         if (hey == null) return;
-        audioSource.PlayOneShot(hey);
+        audioSource.Stop();
+        audioSource.clip = hey;
+        audioSource.Play();
     }
 }

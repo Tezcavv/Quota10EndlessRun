@@ -72,6 +72,8 @@ public class CartManager : MonoBehaviour
     {
         if (swoosh.Length == 0) return;
         AudioClip clip = swoosh[UnityEngine.Random.Range(0, swoosh.Length)];
-        audioSource.PlayOneShot(clip);
+        audioSource.Stop();
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 }

@@ -24,6 +24,8 @@ public class MainMenuSoundManager : MonoBehaviour
 
     public void PlayClickSound()
     {
-        sfxAudioSource.PlayOneShot(clickAudioClip);
+        sfxAudioSource.Stop();
+        sfxAudioSource.clip = clickAudioClip;
+        sfxAudioSource.Play();
     }
 }

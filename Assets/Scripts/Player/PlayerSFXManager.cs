@@ -9,8 +9,8 @@ public class PlayerSFXManager : MonoBehaviour
     [SerializeField] private AudioClip jumpSFX;
     [SerializeField] private AudioClip[] hurtSFX;
 
-    private float counterWalkSFX = 0f;
-    private float delayWalkSFX = 0.7f;
+    [SerializeField] private float counterWalkSFX = 0f;
+    [SerializeField] private float delayWalkSFX = 0.7f;
 
     private void Update()
     {
@@ -27,19 +27,25 @@ public class PlayerSFXManager : MonoBehaviour
     {
         if (walkSFX.Length == 0) return;
         AudioClip clip = walkSFX[Random.Range(0, walkSFX.Length)];
-        audioSource.PlayOneShot(clip);
+        audioSource.Stop();
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 
     public void PlayJumpSFX()
     {
         if (jumpSFX == null) return;
-        audioSource.PlayOneShot(jumpSFX);
+        audioSource.Stop();
+        audioSource.clip = jumpSFX;
+        audioSource.Play();
     }
 
     public void PlayHurtSFX()
     {
         if (hurtSFX.Length == 0) return;
         AudioClip clip = hurtSFX[Random.Range(0, hurtSFX.Length)];
-        audioSource.PlayOneShot(clip);
+        audioSource.Stop();
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 }
