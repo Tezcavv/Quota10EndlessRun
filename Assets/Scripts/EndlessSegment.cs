@@ -19,7 +19,7 @@ public class EndlessSegment : MonoBehaviour
   //   
   // }
 
-  private void ActivateObjects(GraphicType graphicType)
+  public void ActivateObjects(GraphicType graphicType)
   {
     foreach (var obj in objects)
     {
