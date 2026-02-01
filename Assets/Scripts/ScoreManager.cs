@@ -15,11 +15,9 @@ public class ScoreManager : MonoBehaviour
     { get => currentScoreCart;
         set 
         { 
-            if (currentScoreCart != value)
-            {
-                OnCartScoreChanged?.Invoke(currentScoreCart);
-            }
             currentScoreCart = value;
+            OnCartScoreChanged?.Invoke(currentScoreCart);
+
         }
     }
 
@@ -29,7 +27,6 @@ public class ScoreManager : MonoBehaviour
         set
         {
             currentScoreTheatre = value;
-            if(currentScoreTheatre != value)
                 OnTheaterScoreChanged?.Invoke(currentScoreTheatre);
         }
     }

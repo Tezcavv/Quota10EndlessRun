@@ -64,7 +64,7 @@ public class CartManager : MonoBehaviour
         int amountToShow = bodies;// % showBodyFactor;
         for(int i = 0; i < bodyRenderers.Count; i++)
         {
-            bodyRenderers[i].enabled = i + 1 < amountToShow;
+            bodyRenderers[i].enabled = i < amountToShow;
         }
     }
 
