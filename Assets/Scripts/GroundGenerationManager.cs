@@ -49,6 +49,7 @@ public class GroundGenerationManager : MonoBehaviour
     private bool isSquareActive = false;
     public bool triggered = false;
     public Coroutine destroySquareCoroutine;
+    public int originalCounterSegments = 10;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -100,7 +101,7 @@ public class GroundGenerationManager : MonoBehaviour
             return;
         OnEnterEndlessMode?.Invoke();
         worldSpeed = lastWorldSpeed;
-        counterSegmentsLeft = 5; // reset segments to run before next square
+        counterSegmentsLeft = originalCounterSegments; // reset segments to run before next square
         state = WorldState.Running;
         destroyAtZ = groundSegments[0].transform.position.z - 60;
         activeGroundSegments.Clear();
@@ -118,13 +119,10 @@ public class GroundGenerationManager : MonoBehaviour
 
         if (activeSquare != null)
         {
-            // 1?? rimuovi PRIMA dalla lista
             activeGroundSegments.Remove(activeSquare);
 
-            // 2?? poi distruggi
             Destroy(activeSquare);
 
-            // 3?? infine null
             activeSquare = null;
         }
 
@@ -166,6 +164,7 @@ public class GroundGenerationManager : MonoBehaviour
 
         if (counterSegmentsLeft <= 0)
         {
+            originalCounterSegments += originalCounterSegments;
             state = WorldState.PreparingSquare;
             Debug.Log("Preparing Square STATE");
         }
