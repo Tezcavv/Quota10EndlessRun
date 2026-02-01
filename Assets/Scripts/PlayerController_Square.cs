@@ -57,8 +57,8 @@ public class PlayerController_Square : MonoBehaviour
     private void HandleEntryOnSquare()
     {
         this.enabled = true;
-        forwardSpeed = Mathf.Min(originalForwardSpeed + (DifficultyManager.SpeedMultiplier) * 2f, 30);
-        rSpeed = Mathf.Min(originalrSpeed + (DifficultyManager.SpeedMultiplier), 15);
+        //forwardSpeed = Mathf.Min(originalForwardSpeed + (DifficultyManager.SpeedMultiplier) * 2f, 30);
+        //rSpeed = Mathf.Min(originalrSpeed + (DifficultyManager.SpeedMultiplier), 5);
     }
 
     private void HandleExitOnSquare()

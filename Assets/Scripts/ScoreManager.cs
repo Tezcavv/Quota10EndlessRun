@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    public static event System.Action<int> OnScoreChanged = delegate { };
+    public static event System.Action<int> OnCartScoreChanged = delegate { };
+    public static event System.Action<int> OnTheaterScoreChanged = delegate { };
+
     private int highScore = 0;
     [SerializeField]private int currentScoreTheatre = 0;
     [SerializeField]private int currentScoreCart = 0;
@@ -13,11 +15,19 @@ public class ScoreManager : MonoBehaviour
     { get => currentScoreCart;
         set 
         { 
-            if (currentScoreCart != value)
-            {
-                OnScoreChanged?.Invoke(currentScoreCart);
-            }
             currentScoreCart = value;
+            OnCartScoreChanged?.Invoke(currentScoreCart);
+
+        }
+    }
+
+    public int CurrentScoreTheatre
+    {
+        get => currentScoreTheatre;
+        set
+        {
+            currentScoreTheatre = value;
+                OnTheaterScoreChanged?.Invoke(currentScoreTheatre);
         }
     }
 
@@ -40,17 +50,17 @@ public class ScoreManager : MonoBehaviour
     public void AddScoreTheatre()
     {
         float currentScore = CurrentScoreCart * DifficultyManager.ScoreMultiplier;
-        currentScoreTheatre += Mathf.RoundToInt(currentScore);
+        CurrentScoreTheatre += Mathf.RoundToInt(currentScore);
         CurrentScoreCart = 0;
 
-        if(currentScoreTheatre > highScore)
+        if(CurrentScoreTheatre > highScore)
         {
-            highScore = currentScoreTheatre;
+            highScore = CurrentScoreTheatre;
         }
 
-        if (currentScoreTheatre < 0)
+        if (CurrentScoreTheatre < 0)
         {
-            currentScoreTheatre = 0;
+            CurrentScoreTheatre = 0;
         }
 
     }
@@ -68,9 +78,9 @@ public class ScoreManager : MonoBehaviour
 
     public void SetHighScore()
     {
-        if (currentScoreTheatre  > highScore)
+        if (CurrentScoreTheatre  > highScore)
         {
-            highScore = currentScoreTheatre;
+            highScore = CurrentScoreTheatre;
             PlayerPrefs.SetInt("HighScore", highScore);
         }
 
@@ -100,7 +110,7 @@ public class ScoreManager : MonoBehaviour
 
     public int GetCurrentScoreTheatre()
     {
-        return currentScoreTheatre;
+        return CurrentScoreTheatre;
     }
 
     public int GetCurrentScoreCart()

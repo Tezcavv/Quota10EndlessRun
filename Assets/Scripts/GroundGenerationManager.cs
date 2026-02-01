@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
-
+using Random = UnityEngine.Random;
 
 
 public class GroundGenerationManager : MonoBehaviour
@@ -103,7 +103,7 @@ public class GroundGenerationManager : MonoBehaviour
         worldSpeed = lastWorldSpeed;
         counterSegmentsLeft = originalCounterSegments; // reset segments to run before next square
         state = WorldState.Running;
-        destroyAtZ = groundSegments[1].transform.position.z - 120;
+        destroyAtZ = activeSquare.transform.position.z - 60;
         activeGroundSegments.Clear();
         activeGroundSegments.AddRange(groundSegments);
         activeGroundSegments.Add(activeSquare);
@@ -196,6 +196,13 @@ public class GroundGenerationManager : MonoBehaviour
     {
         AlignStaticToDynamic(groundSegments, groundSegments_static);
         // QUI CAMBIA I GROUNDSEGMENTS STATIC CON IL PREFAB CHE VUOI
+
+        int newGraphicType = Random.Range(0, Enum.GetValues(typeof(GraphicType)).Length);
+        foreach (GameObject seg in groundSegments_static)
+        {
+            var x = seg.TryGetComponent<EndlessSegment>(out var endlessSegment);
+            endlessSegment?.ActivateObjects((GraphicType) newGraphicType);
+        }
 
         (groundSegments, groundSegments_static) =
             (groundSegments_static, groundSegments);

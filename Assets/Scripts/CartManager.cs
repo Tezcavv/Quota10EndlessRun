@@ -19,7 +19,8 @@ public class CartManager : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
 
-        ScoreManager.OnScoreChanged += HandleBodyRenderers;
+        ScoreManager.OnCartScoreChanged += HandleBodyRenderers;
+        ScoreManager.OnTheaterScoreChanged += HandleBodyRenderers;
         //theater.onPlayerEnterTheatre +=  enetringTheatre;
     }
 
@@ -30,7 +31,8 @@ public class CartManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        ScoreManager.OnScoreChanged -= HandleBodyRenderers;
+        ScoreManager.OnCartScoreChanged -= HandleBodyRenderers;
+        ScoreManager.OnTheaterScoreChanged -= HandleBodyRenderers;
         //theater.onPlayerEnterTheatre -=  enetringTheatre;
     }
 
@@ -38,23 +40,28 @@ public class CartManager : MonoBehaviour
     {
         Debug.Log("Sbattuto con " +  collision.gameObject.name);
         Passant hitPassant = collision.gameObject.GetComponentInParent<Passant>();
-        if(hitPassant )
-        { 
-            OnCartCollided?.Invoke(hitPassant);
+        if (hitPassant)
+        {
             hitPassant.gameObject.SetActive(false);
 
-            if (hitPassant.PassInfo.type is PassInfo.PassType.actor)
+            if (hitPassant.PassInfo.type != PassInfo.PassType.police)
             {
                 PlaySwooshSound();
                 bodies++;
                 Debug.Log("Corpo aggiunto al carrello. Totale corpi: " + bodies);
             }
+            OnCartCollided?.Invoke(hitPassant);
         }
     }
 
     private void HandleBodyRenderers(int newScore)
     {
-        int amountToShow = newScore % showBodyFactor;
+        Debug.Log("Handle corpi: " + newScore);
+        if(newScore <= 0)
+        {
+            bodies = 0;
+        }
+        int amountToShow = bodies;// % showBodyFactor;
         for(int i = 0; i < bodyRenderers.Count; i++)
         {
             bodyRenderers[i].enabled = i < amountToShow;

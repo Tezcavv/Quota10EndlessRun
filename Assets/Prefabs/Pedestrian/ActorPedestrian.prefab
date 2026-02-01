@@ -1148,7 +1148,7 @@ MonoBehaviour:
   anglularSpeed: 180
   arrivalRadius: 2.5
   passInfo:
-    hitScore: 1
+    hitScore: 10
     type: 1
 --- !u!195 &627440384342260339
 NavMeshAgent:

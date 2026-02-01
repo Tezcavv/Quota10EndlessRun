@@ -57,14 +57,7 @@ public class PlayerController_Endless : MonoBehaviour
         {
             originalColors[i] = renderers[i].material.color;
         }
-
-        InputManager.OnPlayerMovement += HandlePlayerInput;
-        InputManager.OnPlayerJump += HandlePlayerJump;
-
-        EntrySquarePoint.OnPlayerEnterOnEntryPoint += HandleEnterOnSquare;
-
-        ExitSquarePoint.OnPlayerEnterOnExitPoint += HandleExitOnSquare;
-
+        
         targetPosition = transform.position;
         originPoint = transform.forward;
 
@@ -72,6 +65,15 @@ public class PlayerController_Endless : MonoBehaviour
         targetZ = baseZ;
         invincibilityTimer = invincibilityDuration;
         healTimer = healTime;
+    }
+
+    private void Start()
+    {
+        InputManager.OnPlayerMovement += HandlePlayerInput;
+        InputManager.OnPlayerJump += HandlePlayerJump;
+        EntrySquarePoint.OnPlayerEnterOnEntryPoint += HandleEnterOnSquare;
+        ExitSquarePoint.OnPlayerEnterOnExitPoint += HandleExitOnSquare;
+
     }
 
     void OnDestroy()

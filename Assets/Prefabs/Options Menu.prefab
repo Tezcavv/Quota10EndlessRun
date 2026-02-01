@@ -422,7 +422,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sfx
+  m_text: Music
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -559,7 +559,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Music
+  m_text: Sfx
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -776,8 +776,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OptionMenu
   sfxMixer: {fileID: 24100000, guid: 679109fbfabaa82148694bda9791d354, type: 2}
   musicMixer: {fileID: 24100000, guid: f06998fac13e96e8bbc096af911e6855, type: 2}
-  sfxSlider: {fileID: 6376879313934200608}
-  musicSlider: {fileID: 2725255200031118871}
+  sfxSlider: {fileID: 2725255200031118871}
+  musicSlider: {fileID: 6376879313934200608}
   sfxText: {fileID: 3184590445679584740}
   musicText: {fileID: 5880791792791854291}
 --- !u!1001 &3393819047543052961
