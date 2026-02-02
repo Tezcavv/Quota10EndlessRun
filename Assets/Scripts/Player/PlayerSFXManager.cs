@@ -25,6 +25,7 @@ public class PlayerSFXManager : MonoBehaviour
     private void OnEnable()
     {
         playerController_Endless.OnPlayerDeath += HandleIsDeath;
+        TimerManager.OnTimerEnd += HandleIsDeath;
         playerController_Endless.OnPlayerHurt += PlayHurtSFX;
         DepositTheatrePoint.OnPlayerEnterOnDepositPoint += PlayCollisioneSbirroSFX;
     }
@@ -32,6 +33,7 @@ public class PlayerSFXManager : MonoBehaviour
     private void OnDisable()
     {
         playerController_Endless.OnPlayerDeath -= HandleIsDeath;
+        TimerManager.OnTimerEnd -= HandleIsDeath;
         playerController_Endless.OnPlayerHurt -= PlayHurtSFX;
         DepositTheatrePoint.OnPlayerEnterOnDepositPoint -= PlayCollisioneSbirroSFX;
     }

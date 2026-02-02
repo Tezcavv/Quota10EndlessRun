@@ -5,13 +5,10 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-
 public class GroundGenerationManager : MonoBehaviour
 {
+    public static event Action OnSegmentCreation;
 
-    public static event System.Action OnSegmentCreation;
-
-    // WORLD STATE MACHINE
     private enum WorldState
     {
         Running,
@@ -22,17 +19,12 @@ public class GroundGenerationManager : MonoBehaviour
     private WorldState state = WorldState.Running;
 
     [SerializeField] private List<GameObject> groundSegments = new();
+    [SerializeField] private List<GameObject> groundSegments_static = new();
 
-    // questi vengono usati quando si cambia alla square mode
-    [SerializeField] private List <GameObject> groundSegments_static = new();
-    
     [SerializeField] private GameObject squarePrefab;
     [SerializeField] private SpawnPattern spawnPattern;
-    [SerializeField] private float squareEntryOffset = 5f;
     [SerializeField] private GameObject playerPrefab;
-    //[SerializeField] private float segmentLength = 20f;
-    [FormerlySerializedAs("offset")] [SerializeField] private float destroyAtZ = -100.0f;
-    //[SerializeField] private GameObject obstaclePrefab;
+    [FormerlySerializedAs("offset")][SerializeField] private float destroyAtZ = -100f;
     [SerializeField] private float worldSpeed = 15f;
 
     public Action OnEnterEndlessMode;
@@ -40,28 +32,28 @@ public class GroundGenerationManager : MonoBehaviour
 
     public List<GameObject> activeGroundSegments = new();
     public List<GameObject> activePatterns = new();
-    public GameObject activeSquare;
+
+    private GameObject activeSquare;
+
     public int spawnPatternCounter = -1;
     public int counterSegmentsLeft = 10;
-    public float lastWorldSpeed;
-    public float originalWorldSpeed;
-    private float destroySquare = 2f;
-    private bool isSquareActive = false;
-    public bool triggered = false;
-    public Coroutine destroySquareCoroutine;
     public int originalCounterSegments = 10;
 
+    private float lastWorldSpeed;
+    private float originalWorldSpeed;
+    private float destroySquareDelay = 2f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
         activeGroundSegments.AddRange(groundSegments);
+
         EntrySquarePoint.OnPlayerEnterOnEntryPoint += OnSquareEnter;
         ExitSquarePoint.OnPlayerEnterOnExitPoint += OnSquareExit;
+
         originalWorldSpeed = worldSpeed;
     }
-        // Update is called once per frame
-    void Update()
+
+    private void Update()
     {
         switch (state)
         {
@@ -79,230 +71,215 @@ public class GroundGenerationManager : MonoBehaviour
                 worldSpeed = 0f;
                 break;
         }
-
     }
 
-    void OnSquareEnter()
+    // =========================
+    // SQUARE ENTER
+    // =========================
+    private void OnSquareEnter()
     {
+        if (state != WorldState.PreparingSquare)
+            return;
+
+        state = WorldState.InSquare;
+
         OnEnterSquareMode?.Invoke();
+
         lastWorldSpeed = worldSpeed;
         worldSpeed = 0f;
-        foreach(GameObject seg in groundSegments_static)
-        {
+
+        foreach (var seg in groundSegments_static)
             activeGroundSegments.Remove(seg);
-        }
-        state = WorldState.InSquare;
-        Debug.Log("In Square STATE");
     }
 
-    void OnSquareExit()
+    // =========================
+    // SQUARE EXIT
+    // =========================
+    private void OnSquareExit()
     {
-        if (triggered)
+        if (state != WorldState.InSquare)
             return;
-        OnEnterEndlessMode?.Invoke();
-        worldSpeed = lastWorldSpeed;
-        counterSegmentsLeft = originalCounterSegments; // reset segments to run before next square
+
+        if (activeSquare == null)
+        {
+            Debug.LogError("Square exit called but activeSquare is null");
+            return;
+        }
+
+        // 1. Esci dallo stato Square
         state = WorldState.Running;
-        destroyAtZ = activeSquare.transform.position.z - 60;
+
+        OnEnterEndlessMode?.Invoke();
+
+        // 2. Ripristina world
+        worldSpeed = lastWorldSpeed;
+        counterSegmentsLeft = originalCounterSegments;
+
+        // 3. Usa activeSquare PRIMA di distruggerla
+        destroyAtZ = activeSquare.transform.position.z - 60f;
+
         activeGroundSegments.Clear();
         activeGroundSegments.AddRange(groundSegments);
         activeGroundSegments.Add(activeSquare);
-        triggered = true;
-        destroySquareCoroutine = StartCoroutine(DestroySquareRoutine());
-        playerPrefab.transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
-        Debug.Log("Square Exited: resetting to RUNNING state");
+
+        // 4. Distruzione ritardata
+        StartCoroutine(DestroySquareRoutine(activeSquare));
+
+        // 5. Ora è sicuro azzerare
+        activeSquare = null;
+
+        playerPrefab.transform.rotation =
+            Quaternion.LookRotation(Vector3.forward, Vector3.up);
     }
 
-    private IEnumerator DestroySquareRoutine()
+    // =========================
+    // CLEANUP (NO LOGICA)
+    // =========================
+    private IEnumerator DestroySquareRoutine(GameObject square)
     {
-        yield return new WaitForSeconds(destroySquare);
+        yield return new WaitForSeconds(destroySquareDelay);
 
-        if (activeSquare != null)
+        if (square != null)
         {
-            activeGroundSegments.Remove(activeSquare);
-
-            Destroy(activeSquare);
-
-            activeSquare = null;
+            activeGroundSegments.Remove(square);
+            Destroy(square);
         }
-
-        isSquareActive = false;
-        triggered = false;
     }
 
-    void MoveWorld()
+    // =========================
+    // WORLD MOVE
+    // =========================
+    private void MoveWorld()
     {
-        
-        //Debug.Log("Moving world at speed: " + worldSpeed);
         Vector3 delta = Vector3.back * worldSpeed * Time.deltaTime;
 
-        foreach (GameObject seg in activeGroundSegments)
-        {
+        foreach (var seg in activeGroundSegments)
             seg.transform.position += delta;
-        }
-        foreach (GameObject seg in activePatterns)
-        {
-            seg.transform.position += delta;
-        }
+
+        foreach (var p in activePatterns)
+            p.transform.position += delta;
     }
 
-    // running state, subway surfer shit
-    void UpdateRunning()
+    // =========================
+    // RUNNING
+    // =========================
+    private void UpdateRunning()
     {
         if (groundSegments[0].transform.position.z < destroyAtZ)
-        {
             AdvanceChunk();
-        }
-        if (activePatterns.Count > 0)
+
+        if (activePatterns.Count > 0 &&
+            activePatterns[0].transform.position.z < destroyAtZ)
         {
-            if (activePatterns[0].transform.position.z < destroyAtZ)
-            {
-                Destroy(activePatterns[0]);
-                activePatterns.RemoveAt(0);
-            }
+            Destroy(activePatterns[0]);
+            activePatterns.RemoveAt(0);
         }
 
         if (counterSegmentsLeft <= 0)
-        {
-            originalCounterSegments += originalCounterSegments;
             state = WorldState.PreparingSquare;
-            Debug.Log("Preparing Square STATE");
-        }
     }
-    
-    // preparing the square switch state
-    void UpdatePreparingSquare()
+
+    // =========================
+    // PREPARING SQUARE
+    // =========================
+    private void UpdatePreparingSquare()
     {
-        if (activeSquare == null)
-        {
-            PrepareSquare();
-            SpawnEndSquareChunks();
-        }
+        if (activeSquare != null)
+            return;
+
+        PrepareSquare();
+        SpawnEndSquareChunks();
     }
 
-    void AlignStaticToDynamic(List<GameObject> dynamicList, List<GameObject> staticList)
+    // =========================
+    // PREPARE SQUARE
+    // =========================
+    private void PrepareSquare()
     {
-        int count = Mathf.Min(dynamicList.Count, staticList.Count);
+        GameObject lastSegment = groundSegments[^1];
+        float lastChunkEndZ = lastSegment.transform.position.z + 50f;
 
-        for (int i = 0; i < count; i++)
-        {
-            staticList[i].transform.position =
-                dynamicList[i].transform.position;
-        }
+        activeSquare = Instantiate(squarePrefab);
+        Transform entry = activeSquare.transform.Find("EntryPoint");
+
+        float offsetZ = activeSquare.transform.position.z - entry.position.z;
+
+        activeSquare.transform.position = new Vector3(
+            lastSegment.transform.position.x,
+            lastSegment.transform.position.y - 0.4f,
+            lastChunkEndZ + offsetZ
+        );
+
+        activeGroundSegments.Add(activeSquare);
     }
 
-
-    void SpawnEndSquareChunks()
+    // =========================
+    // END SQUARE CHUNKS
+    // =========================
+    private void SpawnEndSquareChunks()
     {
         AlignStaticToDynamic(groundSegments, groundSegments_static);
-        // QUI CAMBIA I GROUNDSEGMENTS STATIC CON IL PREFAB CHE VUOI
 
-        int newGraphicType = Random.Range(0, Enum.GetValues(typeof(GraphicType)).Length);
-        foreach (GameObject seg in groundSegments_static)
-        {
-            var x = seg.TryGetComponent<EndlessSegment>(out var endlessSegment);
-            endlessSegment?.ActivateObjects((GraphicType) newGraphicType);
-        }
+        int graphic = Random.Range(0, Enum.GetValues(typeof(GraphicType)).Length);
+        foreach (var seg in groundSegments_static)
+            seg.GetComponent<EndlessSegment>()?.ActivateObjects((GraphicType)graphic);
 
         (groundSegments, groundSegments_static) =
             (groundSegments_static, groundSegments);
 
-        Transform exitPoint = activeSquare.GetComponentInChildren<ExitSquarePoint>().transform;
+        Transform exit = activeSquare.GetComponentInChildren<ExitSquarePoint>().transform;
 
-        GameObject firstChunk = groundSegments[0];
-
-        // rimuovilo temporaneamente dalla lista
+        GameObject first = groundSegments[0];
         groundSegments.RemoveAt(0);
 
-        // posizionamento preciso
-        firstChunk.transform.position = exitPoint.position + new Vector3(0,0,1f);
+        first.transform.position = exit.position + Vector3.forward;
+        groundSegments.Add(first);
 
-        // reinserisci in fondo
-        groundSegments.Add(firstChunk);
-
-        // distanzia gli altri 3 in base alla lunghezza dei segmenti
         float scale = 48f;
-        for (int i=0; i<3; i++)
-        {
-            PopAndPushGround(groundSegments, 0, scale);
-        }
+        for (int i = 0; i < 3; i++)
+            PopAndPushGround(groundSegments, scale);
+
         activeGroundSegments.AddRange(groundSegments);
     }
 
-
-    // creates and positions square prefab
-    void PrepareSquare()
-    {
-        GameObject lastSegment = groundSegments[^1];
-
-        float lastChunkEndZ = lastSegment.transform.position.z + 50f;
-
-        activeSquare = Instantiate(squarePrefab, Vector3.zero, Quaternion.identity);
-        Transform startEntry = activeSquare.transform.Find("EntryPoint");
-        float offsetZ = activeSquare.transform.position.z - startEntry.position.z;
-
-        Vector3 squarePos = new Vector3(
-        lastSegment.transform.position.x,
-        lastSegment.transform.position.y - 0.4f,
-        lastChunkEndZ + offsetZ
-        );
-        activeSquare.transform.position = squarePos;
-
-        // add square to active segments for movement
-        activeGroundSegments.Add(activeSquare);
-
-        Debug.Log("Square prepared");
-    }
-
-
-    void AdvanceChunk()
+    // =========================
+    // CHUNKS
+    // =========================
+    private void AdvanceChunk()
     {
         spawnPatternCounter++;
         counterSegmentsLeft--;
-        float scale = 48f; //todo apply to new models
+
         OnSegmentCreation?.Invoke();
-        PopAndPushGround(groundSegments, 0, scale);
-        worldSpeed = Mathf.Min(originalWorldSpeed + (DifficultyManager.SpeedMultiplier)*3, 60);
-        GameObject pattern = spawnPattern.GetRandomPattern(DifficultyManager.SpeedMultiplier / 2);
-        GameObject g=Instantiate(pattern, groundSegments[^1].transform.position, Quaternion.identity);
-        activePatterns.Add(g);
+
+        float scale = 48f;
+        PopAndPushGround(groundSegments, scale);
+
+        worldSpeed = Mathf.Min(
+            originalWorldSpeed + DifficultyManager.SpeedMultiplier * 3f, 60f);
+
+        GameObject pattern =
+            spawnPattern.GetRandomPattern(DifficultyManager.SpeedMultiplier / 2f);
+
+        activePatterns.Add(
+            Instantiate(pattern, groundSegments[^1].transform.position, Quaternion.identity));
     }
 
-    void PopAndPushGround(List<GameObject> groundSegment, int column, float scale)
+    private void PopAndPushGround(List<GameObject> segments, float scale)
     {
-        GameObject newSegment = groundSegment[0];
-        
-        groundSegment.RemoveAt(0); //rimuovo quello dietro
+        GameObject seg = segments[0];
+        segments.RemoveAt(0);
 
-        // clear anchors/obstacles
-        //Transform newSegmentAnchor = newSegment.transform.GetChild(0);
-        //for (int i = newSegmentAnchor.childCount - 1; i >= 0; i--)
-        //{
-        //    Destroy(newSegmentAnchor.GetChild(i).gameObject); //distrugge tutti gli ostacoli
-        //}
+        GameObject last = segments[^1];
+        seg.transform.position = last.transform.position + Vector3.forward * scale;
 
-        //list has count  4 
-        GameObject lastSegment = groundSegment[^1];
-
-        newSegment.transform.position = lastSegment.transform.position + new Vector3(0, 0, 1) * scale; //todo apply proper offset
-
-        // Determine if we need to spawn an object on this segment
-        //SpawnDataMapping isObject  = currentSpawnPattern.GetSpawnPattern(spawnPatternCounter, column);
-            
-        // spawn obstacle
-        //if (isObject.prefab != null)
-        //{
-        //    GameObject anchor = newSegment.transform.GetChild(0).gameObject;
-        //    GameObject obstacle = Instantiate(isObject.prefab, anchor.transform.position, Quaternion.identity);
-        //    obstacle.transform.parent = anchor.transform;
-        //   // obstacle.transform.localPosition = isObject.originOffset;
-        //}
-            
-        //add to list, now count is 5 again
-        groundSegment.Add(newSegment);
+        segments.Add(seg);
     }
 
-
+    private void AlignStaticToDynamic(List<GameObject> dynamic, List<GameObject> statics)
+    {
+        int count = Mathf.Min(dynamic.Count, statics.Count);
+        for (int i = 0; i < count; i++)
+            statics[i].transform.position = dynamic[i].transform.position;
+    }
 }
-    
-    

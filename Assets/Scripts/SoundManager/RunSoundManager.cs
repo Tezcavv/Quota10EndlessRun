@@ -39,6 +39,7 @@ public class RunSoundManager : MonoBehaviour
         groundGenerationManager.OnEnterEndlessMode += SwitchToEndlessModeWithFade;
         groundGenerationManager.OnEnterSquareMode += SwitchToSquareModeWithFade;
 
+        TimerManager.OnTimerEnd += HandleIsDeath;
         playerController_Endless.OnPlayerDeath += HandleIsDeath;
     }
 
@@ -47,6 +48,7 @@ public class RunSoundManager : MonoBehaviour
         groundGenerationManager.OnEnterEndlessMode -= SwitchToEndlessModeWithFade;
         groundGenerationManager.OnEnterSquareMode -= SwitchToSquareModeWithFade;
 
+        TimerManager.OnTimerEnd -= HandleIsDeath;
         playerController_Endless.OnPlayerDeath -= HandleIsDeath;
     }
 

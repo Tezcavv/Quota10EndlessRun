@@ -10,6 +10,8 @@ public class Passant : MonoBehaviour
     [SerializeField] private float maxSpeed = 10f;
     [SerializeField] private float anglularSpeed = 180f;
 
+    [SerializeField] private float lifeTime = 20f;
+
     [Header("Arrival")]
     [SerializeField] private float arrivalRadius = 2.5f;
 
@@ -34,6 +36,11 @@ public class Passant : MonoBehaviour
         agent.angularSpeed = anglularSpeed;
         agent.updatePosition = true;
         agent.updateRotation = true;
+    }
+
+    private void Start()
+    {
+        Destroy(gameObject, lifeTime);
     }
 
     private void Update()

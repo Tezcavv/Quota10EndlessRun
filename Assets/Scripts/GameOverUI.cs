@@ -13,6 +13,7 @@ public class GameOverUI : MonoBehaviour
    public RectTransform text;
    public Image left;
    public Image right;
+   public Button restartBtn;
    public Button returnToMainMenuBtn;
    public CanvasGroup fade;
    
@@ -42,6 +43,8 @@ public class GameOverUI : MonoBehaviour
          highScoreTxt.text = "Run Score: " + scoreManager.GetCurrentScoreTheatre();
          highScoreTxt.gameObject.SetActive(true);
          highScoreTxt.GetComponent<RectTransform>().DOPunchScale(punch, 1).SetUpdate(true);
+         restartBtn.gameObject.SetActive(true);
+         restartBtn.GetComponent<CanvasGroup>().DOFade(1f, 1.2f).SetUpdate(true);
          returnToMainMenuBtn.gameObject.SetActive(true);
          returnToMainMenuBtn.GetComponent<CanvasGroup>().DOFade(1f, 1.2f).SetUpdate(true);
       });
@@ -52,6 +55,10 @@ public class GameOverUI : MonoBehaviour
    {
       panel.gameObject.SetActive(false);
       endlessPlayerController.OnPlayerDeath += ActivateGameOver;
+      TimerManager.OnTimerEnd += ActivateGameOver;
+      restartBtn.onClick.AddListener(() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex));
+      restartBtn.gameObject.SetActive(false);
+      restartBtn.GetComponent<CanvasGroup>().alpha = 0;
       returnToMainMenuBtn.onClick.AddListener(() => SceneManager.LoadScene(0));
       returnToMainMenuBtn.gameObject.SetActive(false);
       returnToMainMenuBtn.GetComponent<CanvasGroup>().alpha = 0;
@@ -61,6 +68,8 @@ public class GameOverUI : MonoBehaviour
    private void OnDestroy()
    {
       endlessPlayerController.OnPlayerDeath -= ActivateGameOver;
+      TimerManager.OnTimerEnd -= ActivateGameOver;
+      restartBtn.onClick.RemoveAllListeners();
       returnToMainMenuBtn.onClick.RemoveAllListeners();
    }
 
