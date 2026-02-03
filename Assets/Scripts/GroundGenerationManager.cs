@@ -7,8 +7,9 @@ using Random = UnityEngine.Random;
 
 public class GroundGenerationManager : MonoBehaviour
 {
-    public static event Action OnSegmentCreation;
+    public static event System.Action OnSegmentCreation;
 
+    // WORLD STATE MACHINE
     private enum WorldState
     {
         Running,
@@ -19,12 +20,15 @@ public class GroundGenerationManager : MonoBehaviour
     private WorldState state = WorldState.Running;
 
     [SerializeField] private List<GameObject> groundSegments = new();
+
+    // questi vengono usati quando si cambia alla square mode
     [SerializeField] private List<GameObject> groundSegments_static = new();
 
     [SerializeField] private GameObject squarePrefab;
     [SerializeField] private SpawnPattern spawnPattern;
+    [SerializeField] private float squareEntryOffset = 5f;
     [SerializeField] private GameObject playerPrefab;
-    [FormerlySerializedAs("offset")][SerializeField] private float destroyAtZ = -100f;
+    [FormerlySerializedAs("offset")][SerializeField] private float destroyAtZ = -100.0f;
     [SerializeField] private float worldSpeed = 15f;
 
     public Action OnEnterEndlessMode;
@@ -32,28 +36,29 @@ public class GroundGenerationManager : MonoBehaviour
 
     public List<GameObject> activeGroundSegments = new();
     public List<GameObject> activePatterns = new();
-
-    private GameObject activeSquare;
-
+    public GameObject activeSquare;
     public int spawnPatternCounter = -1;
     public int counterSegmentsLeft = 10;
-    public int originalCounterSegments = 10;
+    public float lastWorldSpeed;
+    public float originalWorldSpeed;
+    private float destroySquare = 2f;
 
-    private float lastWorldSpeed;
-    private float originalWorldSpeed;
-    private float destroySquareDelay = 2f;
+    // usata come guardia di stato reale
+    private bool isSquareActive = false;
+
+    public bool triggered = false;
+    public Coroutine destroySquareCoroutine;
+    public int originalCounterSegments = 10;
 
     private void Awake()
     {
         activeGroundSegments.AddRange(groundSegments);
-
         EntrySquarePoint.OnPlayerEnterOnEntryPoint += OnSquareEnter;
         ExitSquarePoint.OnPlayerEnterOnExitPoint += OnSquareExit;
-
         originalWorldSpeed = worldSpeed;
     }
 
-    private void Update()
+    void Update()
     {
         switch (state)
         {
@@ -73,100 +78,83 @@ public class GroundGenerationManager : MonoBehaviour
         }
     }
 
-    // =========================
-    // SQUARE ENTER
-    // =========================
-    private void OnSquareEnter()
+    void OnSquareEnter()
     {
-        if (state != WorldState.PreparingSquare)
-            return;
-
-        state = WorldState.InSquare;
-
         OnEnterSquareMode?.Invoke();
-
         lastWorldSpeed = worldSpeed;
         worldSpeed = 0f;
 
-        foreach (var seg in groundSegments_static)
-            activeGroundSegments.Remove(seg);
-    }
-
-    // =========================
-    // SQUARE EXIT
-    // =========================
-    private void OnSquareExit()
-    {
-        if (state != WorldState.InSquare)
-            return;
-
-        if (activeSquare == null)
+        foreach (GameObject seg in groundSegments_static)
         {
-            Debug.LogError("Square exit called but activeSquare is null");
-            return;
+            activeGroundSegments.Remove(seg);
         }
 
-        // 1. Esci dallo stato Square
-        state = WorldState.Running;
+        state = WorldState.InSquare;
+        Debug.Log("In Square STATE");
+    }
+
+    void OnSquareExit()
+    {
+        // evita chiamate multiple mentre la square è in teardown
+        if (triggered || activeSquare == null)
+            return;
 
         OnEnterEndlessMode?.Invoke();
-
-        // 2. Ripristina world
         worldSpeed = lastWorldSpeed;
         counterSegmentsLeft = originalCounterSegments;
+        state = WorldState.Running;
 
-        // 3. Usa activeSquare PRIMA di distruggerla
-        destroyAtZ = activeSquare.transform.position.z - 60f;
+        // activeSquare viene usata solo se valida
+        destroyAtZ = activeSquare.transform.position.z - 60;
 
         activeGroundSegments.Clear();
         activeGroundSegments.AddRange(groundSegments);
         activeGroundSegments.Add(activeSquare);
 
-        // 4. Distruzione ritardata
-        StartCoroutine(DestroySquareRoutine(activeSquare));
+        triggered = true;
+        destroySquareCoroutine = StartCoroutine(DestroySquareRoutine());
 
-        // 5. Ora è sicuro azzerare
-        activeSquare = null;
-
-        playerPrefab.transform.rotation =
-            Quaternion.LookRotation(Vector3.forward, Vector3.up);
+        playerPrefab.transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
+        Debug.Log("Square Exited: resetting to RUNNING state");
     }
 
-    // =========================
-    // CLEANUP (NO LOGICA)
-    // =========================
-    private IEnumerator DestroySquareRoutine(GameObject square)
+    private IEnumerator DestroySquareRoutine()
     {
-        yield return new WaitForSeconds(destroySquareDelay);
+        yield return new WaitForSeconds(destroySquare);
 
-        if (square != null)
+        if (activeSquare != null)
         {
-            activeGroundSegments.Remove(square);
-            Destroy(square);
+            activeGroundSegments.Remove(activeSquare);
+            Destroy(activeSquare);
+            activeSquare = null;
         }
+
+        // reset controllato dello stato
+        isSquareActive = false;
+        triggered = false;
     }
 
-    // =========================
-    // WORLD MOVE
-    // =========================
-    private void MoveWorld()
+    void MoveWorld()
     {
         Vector3 delta = Vector3.back * worldSpeed * Time.deltaTime;
 
-        foreach (var seg in activeGroundSegments)
+        foreach (GameObject seg in activeGroundSegments)
+        {
             seg.transform.position += delta;
+        }
 
-        foreach (var p in activePatterns)
-            p.transform.position += delta;
+        foreach (GameObject seg in activePatterns)
+        {
+            seg.transform.position += delta;
+        }
     }
 
-    // =========================
-    // RUNNING
-    // =========================
-    private void UpdateRunning()
+    void UpdateRunning()
     {
         if (groundSegments[0].transform.position.z < destroyAtZ)
+        {
             AdvanceChunk();
+        }
 
         if (activePatterns.Count > 0 &&
             activePatterns[0].transform.position.z < destroyAtZ)
@@ -176,33 +164,72 @@ public class GroundGenerationManager : MonoBehaviour
         }
 
         if (counterSegmentsLeft <= 0)
+        {
+            originalCounterSegments += originalCounterSegments;
             state = WorldState.PreparingSquare;
+            Debug.Log("Preparing Square STATE");
+        }
     }
 
-    // =========================
-    // PREPARING SQUARE
-    // =========================
-    private void UpdatePreparingSquare()
+    void UpdatePreparingSquare()
     {
-        if (activeSquare != null)
-            return;
-
-        PrepareSquare();
-        SpawnEndSquareChunks();
+        // la square viene preparata UNA SOLA VOLTA
+        if (!isSquareActive)
+        {
+            isSquareActive = true;
+            PrepareSquare();
+            SpawnEndSquareChunks();
+        }
     }
 
-    // =========================
-    // PREPARE SQUARE
-    // =========================
-    private void PrepareSquare()
+    void AlignStaticToDynamic(List<GameObject> dynamicList, List<GameObject> staticList)
+    {
+        int count = Mathf.Min(dynamicList.Count, staticList.Count);
+
+        for (int i = 0; i < count; i++)
+        {
+            staticList[i].transform.position = dynamicList[i].transform.position;
+        }
+    }
+
+    void SpawnEndSquareChunks()
+    {
+        AlignStaticToDynamic(groundSegments, groundSegments_static);
+
+        int newGraphicType = Random.Range(0, Enum.GetValues(typeof(GraphicType)).Length);
+        foreach (GameObject seg in groundSegments_static)
+        {
+            seg.TryGetComponent(out EndlessSegment endlessSegment);
+            endlessSegment?.ActivateObjects((GraphicType)newGraphicType);
+        }
+
+        (groundSegments, groundSegments_static) =
+            (groundSegments_static, groundSegments);
+
+        Transform exitPoint = activeSquare.GetComponentInChildren<ExitSquarePoint>().transform;
+
+        GameObject firstChunk = groundSegments[0];
+        groundSegments.RemoveAt(0);
+        firstChunk.transform.position = exitPoint.position + new Vector3(0, 0, 1f);
+        groundSegments.Add(firstChunk);
+
+        float scale = 48f;
+        for (int i = 0; i < 3; i++)
+        {
+            PopAndPushGround(groundSegments, 0, scale);
+        }
+
+        activeGroundSegments.AddRange(groundSegments);
+    }
+
+    void PrepareSquare()
     {
         GameObject lastSegment = groundSegments[^1];
         float lastChunkEndZ = lastSegment.transform.position.z + 50f;
 
-        activeSquare = Instantiate(squarePrefab);
-        Transform entry = activeSquare.transform.Find("EntryPoint");
-
-        float offsetZ = activeSquare.transform.position.z - entry.position.z;
+        activeSquare = Instantiate(squarePrefab, Vector3.zero, Quaternion.identity);
+        Transform startEntry = activeSquare.transform.Find("EntryPoint");
+        float offsetZ = activeSquare.transform.position.z - startEntry.position.z;
 
         activeSquare.transform.position = new Vector3(
             lastSegment.transform.position.x,
@@ -211,75 +238,41 @@ public class GroundGenerationManager : MonoBehaviour
         );
 
         activeGroundSegments.Add(activeSquare);
+        Debug.Log("Square prepared");
     }
 
-    // =========================
-    // END SQUARE CHUNKS
-    // =========================
-    private void SpawnEndSquareChunks()
-    {
-        AlignStaticToDynamic(groundSegments, groundSegments_static);
-
-        int graphic = Random.Range(0, Enum.GetValues(typeof(GraphicType)).Length);
-        foreach (var seg in groundSegments_static)
-            seg.GetComponent<EndlessSegment>()?.ActivateObjects((GraphicType)graphic);
-
-        (groundSegments, groundSegments_static) =
-            (groundSegments_static, groundSegments);
-
-        Transform exit = activeSquare.GetComponentInChildren<ExitSquarePoint>().transform;
-
-        GameObject first = groundSegments[0];
-        groundSegments.RemoveAt(0);
-
-        first.transform.position = exit.position + Vector3.forward;
-        groundSegments.Add(first);
-
-        float scale = 48f;
-        for (int i = 0; i < 3; i++)
-            PopAndPushGround(groundSegments, scale);
-
-        activeGroundSegments.AddRange(groundSegments);
-    }
-
-    // =========================
-    // CHUNKS
-    // =========================
-    private void AdvanceChunk()
+    void AdvanceChunk()
     {
         spawnPatternCounter++;
         counterSegmentsLeft--;
 
-        OnSegmentCreation?.Invoke();
-
         float scale = 48f;
-        PopAndPushGround(groundSegments, scale);
+        OnSegmentCreation?.Invoke();
+        PopAndPushGround(groundSegments, 0, scale);
 
         worldSpeed = Mathf.Min(
-            originalWorldSpeed + DifficultyManager.SpeedMultiplier * 3f, 60f);
+            originalWorldSpeed + (DifficultyManager.SpeedMultiplier) * 3,
+            60
+        );
 
         GameObject pattern =
-            spawnPattern.GetRandomPattern(DifficultyManager.SpeedMultiplier / 2f);
+            spawnPattern.GetRandomPattern(DifficultyManager.SpeedMultiplier / 2);
 
-        activePatterns.Add(
-            Instantiate(pattern, groundSegments[^1].transform.position, Quaternion.identity));
+        GameObject g =
+            Instantiate(pattern, groundSegments[^1].transform.position, Quaternion.identity);
+
+        activePatterns.Add(g);
     }
 
-    private void PopAndPushGround(List<GameObject> segments, float scale)
+    void PopAndPushGround(List<GameObject> groundSegment, int column, float scale)
     {
-        GameObject seg = segments[0];
-        segments.RemoveAt(0);
+        GameObject newSegment = groundSegment[0];
+        groundSegment.RemoveAt(0);
 
-        GameObject last = segments[^1];
-        seg.transform.position = last.transform.position + Vector3.forward * scale;
+        GameObject lastSegment = groundSegment[^1];
+        newSegment.transform.position =
+            lastSegment.transform.position + Vector3.forward * scale;
 
-        segments.Add(seg);
-    }
-
-    private void AlignStaticToDynamic(List<GameObject> dynamic, List<GameObject> statics)
-    {
-        int count = Mathf.Min(dynamic.Count, statics.Count);
-        for (int i = 0; i < count; i++)
-            statics[i].transform.position = dynamic[i].transform.position;
+        groundSegment.Add(newSegment);
     }
 }

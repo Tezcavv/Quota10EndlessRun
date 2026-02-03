@@ -31,10 +31,9 @@ public class PlayerController_Square : MonoBehaviour
         originalrSpeed = rSpeed;
     }
 
-
     private void Update()
     {
-        transform.Rotate(0, currDir.x * rSpeed, 0);
+        transform.Rotate(0, currDir.x * rSpeed * Time.deltaTime, 0);
     }
 
     void FixedUpdate()
